@@ -1170,8 +1170,8 @@
             // ==============================
             
             // 1. Batas Administrasi / Desa
-            if (typeof json_BATAS_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
-                geoBatas = L.geoJSON(json_BATAS_ADMINISTRASI_DESKEL_LN_3, {
+            if (typeof json_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
+                geoBatas = L.geoJSON(json_ADMINISTRASI_DESKEL_LN_3, {
                     style: function() { 
                         var op = parseFloat(document.getElementById('op-batas').value);
                         return { color: '#cbd5e1', weight: 3, dashArray: '5, 5', fillOpacity: 0, opacity: op }; 
@@ -1192,16 +1192,16 @@
             } else { console.warn("Data Jaringan Jalan tidak ditemukan."); }
 
             // 3. Bidang Tanah
-            if (typeof json_BIDANG_TANAH_0 !== 'undefined') {
-                geoBidang = L.geoJSON(json_BIDANG_TANAH_0, {
+            if (typeof json_BIDANG_TANAH_1 !== 'undefined') {
+                geoBidang = L.geoJSON(json_BIDANG_TANAH_1, {
                     style: styleBidang,
                     onEachFeature: bindPopupData
                 }).addTo(map);
             } else { console.warn("Data Bidang Tanah tidak ditemukan."); }
 
             // 4. Penutup Lahan
-            if (typeof json_PENUTUP_LAHAN_1 !== 'undefined') {
-                geoPenutup = L.geoJSON(json_PENUTUP_LAHAN_1, {
+            if (typeof json_PENUTUP_LAHAN_0 !== 'undefined') {
+                geoPenutup = L.geoJSON(json_PENUTUP_LAHAN_0, {
                     style: stylePenutup,
                     onEachFeature: bindPopupData
                 }).addTo(map);
