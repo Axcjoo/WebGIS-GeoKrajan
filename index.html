@@ -318,12 +318,9 @@
         .check-item input[type="checkbox"]:checked + .check-custom { background: var(--accent); border-color: var(--accent); }
         .check-item input[type="checkbox"]:checked + .check-custom::after { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: white; font-size: 10px; }
         
-        /* UPDATE: CSS LEGENDA INDIKATOR SIDEBAR DI-SINKRONKAN DENGAN GAMBAR */
         .legend-indicator { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
-        .legend-indicator.batas-desa { background: #000000; height: 4px; margin-top: 6px; border-radius: 0; box-shadow: 0 0 4px rgba(0,0,0,0.5); }
-        .legend-indicator.jalan-line { border-bottom: 3px dashed #e31a1c; width: 16px; height: 0; margin-top: 8px; display: inline-block; background: transparent; }
-        .legend-indicator.orange { background: #fdbf6f; } /* Hak Pakai sbg representasi */
-        .legend-indicator.blue { background: #fb9a99; } /* Bangunan Hunian sbg representasi */
+        .legend-indicator.dashed { border: 2px dashed #cbd5e1; background: transparent; }
+        .legend-indicator.red-line { background: #f87171; height: 4px; margin-top: 6px; }
 
         .slider-wrapper { margin-bottom: 15px; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);}
         .slider-labels { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #cbd5e1; font-family: 'Poppins', sans-serif;}
@@ -753,29 +750,27 @@
                             <input type="checkbox" id="chk-batas" checked>
                             <span class="check-custom"></span> Batas Desa
                         </div>
-                        <span class="legend-indicator batas-desa"></span>
+                        <span class="legend-indicator dashed"></span>
                     </label>
                     <label class="check-item">
                         <div class="check-item-left">
                             <input type="checkbox" id="chk-jalan" checked>
                             <span class="check-custom"></span> Jaringan Jalan
                         </div>
-                        <span class="legend-indicator jalan-line"></span>
+                        <span class="legend-indicator red-line"></span>
                     </label>
                     <label class="check-item">
                         <div class="check-item-left">
                             <input type="checkbox" id="chk-bidang" checked>
                             <span class="check-custom"></span> Bidang Tanah
                         </div>
-                        <span class="legend-indicator orange"></span>
-                    </label>
+                        </label>
                     <label class="check-item">
                         <div class="check-item-left">
                             <input type="checkbox" id="chk-penutup" checked>
                             <span class="check-custom"></span> Penutup Lahan
                         </div>
-                        <span class="legend-indicator blue"></span>
-                    </label>
+                         </label>
                 </div>
 
                 <hr style="border: 0; height: 1px; background: rgba(255,255,255,0.05); margin: 15px 0;">
@@ -841,29 +836,9 @@
             </div>
             
             <div class="legend-content-wrapper" id="legend-content-wrapper">
-                
-                <div id="leg-text-bidang" class="legend-section active">
-                    <div class="legend-title">Legenda Bidang Tanah</div>
-                    <div class="legend-item"><div class="color-box" style="background:#e31a1c;"></div><span>Hak Guna Bangunan</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#b2df8a;"></div><span>Hak Milik</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#fdbf6f;"></div><span>Hak Pakai</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#ff7f00;"></div><span>Hak Wakaf</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#1f78b4;"></div><span>Kosong</span></div>
-                </div>
+                <div id="leg-text-bidang" class="legend-section active"></div>
 
-                <div id="leg-text-penutup" class="legend-section active">
-                    <div class="legend-title">Legenda Penutup Lahan</div>
-                    <div class="legend-item"><div class="color-box" style="background:#fb9a99;"></div><span>Bangunan Hunian</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#cab2d6;"></div><span>Bangunan Industri</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#a6cee3;"></div><span>Bangunan Kesehatan</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#ffff99;"></div><span>Bangunan Pendidikan</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#b15928;"></div><span>Bangunan Peribadatan</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#6a3d9a;"></div><span>Bangunan Perkantoran</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#cccccc;"></div><span>Jalan / Infrastruktur</span></div> 
-                    <div class="legend-item"><div class="color-box" style="background:#33a02c;"></div><span>Sawah / Pertanian</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#b2df8a;"></div><span>Tegalan / Ladang</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#1f78b4;"></div><span>Badan Air / Sungai</span></div>
-                </div>
+                <div id="leg-text-penutup" class="legend-section active"></div>
             </div>
         </div>
 
@@ -876,6 +851,52 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
+        // =========================================
+        // === KONFIGURASI WARNA & LEGENDA PETA ====
+        // =========================================
+        // PENTING: Anda cukup mengubah kode WARNA HEX dan KATA KUNCI (keyword) pada bagian ini.
+        // Semua simbol di peta dan panel legenda HTML akan menyesuaikan secara otomatis.
+
+        const konfigurasiWarnaBidang = [
+            { keyword: ["guna bangunan", "hgb"], warna: "#e11d48", label: "Hak Guna Bangunan" },
+            { keyword: ["milik", "hm"], warna: "#86efac", label: "Hak Milik" },
+            { keyword: ["pakai", "hp"], warna: "#fcd34d", label: "Hak Pakai" },
+            { keyword: ["wakaf", "hw"], warna: "#f97316", label: "Hak Wakaf" },
+            { keyword: [], warna: "#3b82f6", label: "Kosong / Lainnya", isDefault: true } // Warna Default
+        ];
+
+        const konfigurasiWarnaPenutup = [
+            { keyword: ["hunian", "pemukiman", "permukiman"], warna: "#fca5a5", label: "Bangunan Hunian / Pemukiman" },
+            { keyword: ["industri"], warna: "#d8b4fe", label: "Bangunan Industri" },
+            { keyword: ["pendidikan"], warna: "#6ee7b7", label: "Bangunan Pendidikan" },
+            { keyword: ["peribadatan"], warna: "#fde047", label: "Bangunan Peribadatan" },
+            { keyword: ["perkantoran"], warna: "#cbd5e1", label: "Bangunan Perkantoran" },
+            { keyword: ["jalan"], warna: "#a1a1aa", label: "Jalan (Infrastruktur)" },
+            { keyword: ["sawah", "basah"], warna: "#4ade80", label: "Sawah / Pertanian Basah" },
+            { keyword: ["tegalan", "ladang"], warna: "#14b8a6", label: "Tegalan / Ladang" },
+            { keyword: ["air", "sungai"], warna: "#93c5fd", label: "Badan Air / Sungai" },
+            { keyword: [], warna: "#94a3b8", label: "Kosong / Lainnya", isDefault: true } // Warna Default
+        ];
+
+        function buatLegendaOtomatis() {
+            // Membuat Legenda Bidang Tanah
+            let htmlBidang = '<div class="legend-title">Legenda Bidang Tanah</div>';
+            konfigurasiWarnaBidang.forEach(item => {
+                htmlBidang += `<div class="legend-item"><div class="color-box" style="background:${item.warna};"></div><span>${item.label}</span></div>`;
+            });
+            document.getElementById('leg-text-bidang').innerHTML = htmlBidang;
+
+            // Membuat Legenda Penutup Lahan
+            let htmlPenutup = '<div class="legend-title">Legenda Penutup Lahan</div>';
+            konfigurasiWarnaPenutup.forEach(item => {
+                htmlPenutup += `<div class="legend-item"><div class="color-box" style="background:${item.warna};"></div><span>${item.label}</span></div>`;
+            });
+            document.getElementById('leg-text-penutup').innerHTML = htmlPenutup;
+        }
+
+        // =========================================
+        // ======= ANIMASI & SISTEM DOM ===========
+        // =========================================
         AOS.init({ duration: 800, once: true, offset: 50 });
 
         window.addEventListener('scroll', function() {
@@ -978,6 +999,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            buatLegendaOtomatis(); // Mengeksekusi generasi Legenda Dinamis
+
             const ctx = document.getElementById('grafikDemografi').getContext('2d');
             myChart = new Chart(ctx, {
                 type: 'bar',
@@ -1081,39 +1104,41 @@
             }
         }
 
-        // UPDATE SCRIPT PEWARNAAN MENGGUNAKAN HEX CODE QGIS PAIRED (SESUAI GAMBAR)
+        // Logic Baru Pewarnaan Dinamis Berdasarkan Konfigurasi Array
         function styleBidang(feature) {
             var prop = feature.properties;
             var jenis = prop.STATUS || prop.status || prop.HAK || prop.hak || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.JENIS || prop.jenis || "";
             jenis = jenis.toString().toLowerCase();
             
-            var warna = "#1f78b4"; // default biru (Kosong)
-            if (jenis.includes("guna bangunan") || jenis.includes("hgb")) warna = "#e31a1c"; // Merah
-            else if (jenis.includes("milik") || jenis.includes("hm")) warna = "#b2df8a"; // Hijau Muda
-            else if (jenis.includes("pakai") || jenis.includes("hp")) warna = "#fdbf6f"; // Peach / Orange Muda
-            else if (jenis.includes("wakaf") || jenis.includes("hw")) warna = "#ff7f00"; // Orange
-            else if (jenis.includes("kosong")) warna = "#1f78b4"; // Biru
+            // Ambil warna default dari Array
+            var warna = konfigurasiWarnaBidang.find(k => k.isDefault).warna; 
+
+            for (let item of konfigurasiWarnaBidang) {
+                if (!item.isDefault && item.keyword.some(kw => jenis.includes(kw))) {
+                    warna = item.warna;
+                    break;
+                }
+            }
 
             var op = document.getElementById('op-bidang') ? parseFloat(document.getElementById('op-bidang').value) : 0.7;
-            return { fillColor: warna, color: "rgba(0,0,0,0.5)", weight: 1, fillOpacity: op, opacity: op };
+            return { fillColor: warna, color: "rgba(255,255,255,0.5)", weight: 1, fillOpacity: op, opacity: op };
         }
 
+        // Logic Baru Pewarnaan Dinamis Berdasarkan Konfigurasi Array
         function stylePenutup(feature) {
             var prop = feature.properties;
             var jenis = prop.JENIS || prop.jenis || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.PL || "";
             jenis = jenis.toString().toLowerCase();
             
-            var warna = "#94a3b8"; // default abu-abu
-            if(jenis.includes("hunian") || jenis.includes("pemukiman") || jenis.includes("permukiman")) warna = "#fb9a99"; // Pink / Merah Muda
-            else if(jenis.includes("industri")) warna = "#cab2d6"; // Ungu Muda
-            else if(jenis.includes("kesehatan")) warna = "#a6cee3"; // Biru Muda (New dari Gambar)
-            else if(jenis.includes("pendidikan")) warna = "#ffff99"; // Kuning (QGIS Paired standar)
-            else if(jenis.includes("peribadatan")) warna = "#b15928"; // Coklat
-            else if(jenis.includes("perkantoran")) warna = "#6a3d9a"; // Ungu Gelap
-            else if(jenis.includes("sawah") || jenis.includes("basah")) warna = "#33a02c"; // Hijau Gelap
-            else if(jenis.includes("tegalan") || jenis.includes("ladang")) warna = "#b2df8a"; // Hijau Muda
-            else if(jenis.includes("air") || jenis.includes("sungai")) warna = "#1f78b4"; // Biru Tua
-            else if(jenis.includes("jalan")) warna = "#cccccc"; // Abu-abu 
+            // Ambil warna default dari Array
+            var warna = konfigurasiWarnaPenutup.find(k => k.isDefault).warna;
+
+            for (let item of konfigurasiWarnaPenutup) {
+                if (!item.isDefault && item.keyword.some(kw => jenis.includes(kw))) {
+                    warna = item.warna;
+                    break;
+                }
+            }
 
             var op = document.getElementById('op-penutup') ? parseFloat(document.getElementById('op-penutup').value) : 0.6;
             return { fillColor: warna, color: "transparent", weight: 0, fillOpacity: op };
@@ -1130,29 +1155,29 @@
             // PEMANGGILAN VARIABEL DATA TERBARU
             // ==============================
             
-            // 1. Batas Administrasi / Desa (Garis Hitam Solid)
+            // 1. Batas Administrasi / Desa
             if (typeof json_BATAS_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
                 geoBatas = L.geoJSON(json_BATAS_ADMINISTRASI_DESKEL_LN_3, {
                     style: function() { 
                         var op = parseFloat(document.getElementById('op-batas').value);
-                        return { color: '#000000', weight: 4, fillOpacity: 0, opacity: op }; 
+                        return { color: '#cbd5e1', weight: 3, dashArray: '5, 5', fillOpacity: 0, opacity: op }; 
                     },
                     onEachFeature: bindPopupData
                 }).addTo(map);
             } else { console.warn("Data Batas Administrasi tidak ditemukan."); }
 
-            // 2. Jaringan Jalan (Garis Putus Merah)
+            // 2. Jaringan Jalan
             if (typeof json_JALAN_LN_2 !== 'undefined') {
                 geoJalan = L.geoJSON(json_JALAN_LN_2, {
                     style: function() { 
                         var op = parseFloat(document.getElementById('op-jalan').value);
-                        return { color: '#e31a1c', weight: 3, dashArray: '5, 5', fillOpacity: 0, opacity: op }; 
+                        return { color: '#f87171', weight: 4, fillOpacity: 0, opacity: op }; 
                     },
                     onEachFeature: bindPopupData
                 }).addTo(map);
             } else { console.warn("Data Jaringan Jalan tidak ditemukan."); }
 
-            // 3. Bidang Tanah
+            // 3. Bidang Tanah (Telah diubah menjadi _1 sesuai permintaan)
             var jsBidangTanah = typeof json_BIDANG_TANAH_1 !== 'undefined' ? json_BIDANG_TANAH_1 : (typeof json_BIDANG_TANAH_0 !== 'undefined' ? json_BIDANG_TANAH_0 : null);
             if (jsBidangTanah) {
                 geoBidang = L.geoJSON(jsBidangTanah, {
@@ -1161,7 +1186,7 @@
                 }).addTo(map);
             } else { console.warn("Data Bidang Tanah tidak ditemukan."); }
 
-            // 4. Penutup Lahan
+            // 4. Penutup Lahan (Telah diubah menjadi _0 sesuai permintaan)
             var jsPenutupLahan = typeof json_PENUTUP_LAHAN_0 !== 'undefined' ? json_PENUTUP_LAHAN_0 : (typeof json_PENUTUP_LAHAN_1 !== 'undefined' ? json_PENUTUP_LAHAN_1 : null);
             if (jsPenutupLahan) {
                 geoPenutup = L.geoJSON(jsPenutupLahan, {
@@ -1170,7 +1195,7 @@
                 }).addTo(map);
             } else { console.warn("Data Penutup Lahan tidak ditemukan."); }
 
-            // FitBounds Otomatis
+            // FitBounds Otomatis menyesuaikan jangkauan Data Terbaru
             setTimeout(function(){ 
                 map.invalidateSize(); 
                 if (geoBatas) {
