@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 
-    <script src="data/ADMINISTRASI_LN_DESKEL_3.js"></script>
+    <script src="data/ADMINISTRASI_LN_3.js"></script>
     <script src="data/JALAN_LN_2.js"></script>
     <script src="data/BIDANG_TANAH_1.js"></script>
     <script src="data/PENUTUP_LAHAN_0.js"></script>
@@ -854,12 +854,13 @@
         // === KONFIGURASI WARNA & LEGENDA PETA ========
         // =========================================================================
         
+        // UPDATE: Penyesuaian konfigurasi warna Bidang Tanah berdasarkan gambar terlampir
         const konfigurasiWarnaBidang = [
-            { keyword: ["guna bangunan", "hgb"], warna: "#e11d48", label: "Hak Guna Bangunan" },
-            { keyword: ["milik", "hm"], warna: "#86efac", label: "Hak Milik" },
-            { keyword: ["pakai", "hp"], warna: "#fcd34d", label: "Hak Pakai" },
-            { keyword: ["wakaf", "hw"], warna: "#f97316", label: "Hak Wakaf" },
-            { keyword: [], warna: "#3b82f6", label: "Kosong / Lainnya", isDefault: true } 
+            { keyword: ["guna bangunan", "hgb"], warna: "#e31a1c", label: "Hak Guna Bangunan" },
+            { keyword: ["milik", "hm"], warna: "#a6d96a", label: "Hak Milik" },
+            { keyword: ["pakai", "hp"], warna: "#fdbf6f", label: "Hak Pakai" },
+            { keyword: ["wakaf", "hw"], warna: "#ff7f00", label: "Hak Wakaf" },
+            { keyword: [], warna: "#3498db", label: "Kosong / Lainnya", isDefault: true } 
         ];
 
         const konfigurasiWarnaPenutup = [
@@ -1148,8 +1149,9 @@
             googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{ maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }); 
             satelit = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }).addTo(map);
 
-            if (typeof json_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
-                geoBatas = L.geoJSON(json_ADMINISTRASI_DESKEL_LN_3, {
+            // UPDATE: Perubahan referensi data Batas Administrasi Desa
+            if (typeof json_ADMINISTRASI_LN_3 !== 'undefined') {
+                geoBatas = L.geoJSON(json_ADMINISTRASI_LN_3, {
                     style: function() { 
                         var op = parseFloat(document.getElementById('op-batas').value);
                         return { color: '#cbd5e1', weight: 3, dashArray: '5, 5', fillOpacity: 0, opacity: op }; 
