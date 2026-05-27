@@ -764,13 +764,13 @@
                             <input type="checkbox" id="chk-bidang" checked>
                             <span class="check-custom"></span> Bidang Tanah
                         </div>
-                        </label>
+                    </label>
                     <label class="check-item">
                         <div class="check-item-left">
                             <input type="checkbox" id="chk-penutup" checked>
                             <span class="check-custom"></span> Penutup Lahan
                         </div>
-                         </label>
+                    </label>
                 </div>
 
                 <hr style="border: 0; height: 1px; background: rgba(255,255,255,0.05); margin: 15px 0;">
@@ -837,7 +837,6 @@
             
             <div class="legend-content-wrapper" id="legend-content-wrapper">
                 <div id="leg-text-bidang" class="legend-section active"></div>
-
                 <div id="leg-text-penutup" class="legend-section active"></div>
             </div>
         </div>
@@ -851,42 +850,48 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // =========================================
-        // === KONFIGURASI WARNA & LEGENDA PETA ====
-        // =========================================
-        // PENTING: Anda cukup mengubah kode WARNA HEX dan KATA KUNCI (keyword) pada bagian ini.
-        // Semua simbol di peta dan panel legenda HTML akan menyesuaikan secara otomatis.
-
+        // =========================================================================
+        // === KONFIGURASI WARNA & LEGENDA PETA ========
+        // =========================================================================
+        
         const konfigurasiWarnaBidang = [
             { keyword: ["guna bangunan", "hgb"], warna: "#e11d48", label: "Hak Guna Bangunan" },
             { keyword: ["milik", "hm"], warna: "#86efac", label: "Hak Milik" },
             { keyword: ["pakai", "hp"], warna: "#fcd34d", label: "Hak Pakai" },
             { keyword: ["wakaf", "hw"], warna: "#f97316", label: "Hak Wakaf" },
-            { keyword: [], warna: "#3b82f6", label: "Kosong / Lainnya", isDefault: true } // Warna Default
+            { keyword: [], warna: "#3b82f6", label: "Kosong / Lainnya", isDefault: true } 
         ];
 
+        // KONFIGURASI PENUTUP LAHAN LENGKAP 16 KATEGORI (Sesuai Gambar Upload)
         const konfigurasiWarnaPenutup = [
-            { keyword: ["hunian", "pemukiman", "permukiman"], warna: "#fca5a5", label: "Bangunan Hunian / Pemukiman" },
-            { keyword: ["industri"], warna: "#d8b4fe", label: "Bangunan Industri" },
-            { keyword: ["pendidikan"], warna: "#6ee7b7", label: "Bangunan Pendidikan" },
-            { keyword: ["peribadatan"], warna: "#fde047", label: "Bangunan Peribadatan" },
-            { keyword: ["perkantoran"], warna: "#cbd5e1", label: "Bangunan Perkantoran" },
-            { keyword: ["jalan"], warna: "#a1a1aa", label: "Jalan (Infrastruktur)" },
-            { keyword: ["sawah", "basah"], warna: "#4ade80", label: "Sawah / Pertanian Basah" },
-            { keyword: ["tegalan", "ladang"], warna: "#14b8a6", label: "Tegalan / Ladang" },
-            { keyword: ["air", "sungai"], warna: "#93c5fd", label: "Badan Air / Sungai" },
-            { keyword: [], warna: "#94a3b8", label: "Kosong / Lainnya", isDefault: true } // Warna Default
+            { keyword: ["hunian", "pemukiman", "permukiman"], warna: "#f09a9b", label: "Bangunan Hunian" },
+            { keyword: ["industri"], warna: "#a771cc", label: "Bangunan Industri" },
+            { keyword: ["kesehatan", "medis", "puskesmas", "rumah sakit"], warna: "#5bb1dd", label: "Bangunan Kesehatan" },
+            { keyword: ["olahraga", "lapangan", "gor"], warna: "#7de0b3", label: "Bangunan Olahraga" },
+            { keyword: ["pendidikan", "sekolah", "kampus"], warna: "#76c941", label: "Bangunan Pendidikan" },
+            { keyword: ["perdagangan", "jasa", "pasar", "toko"], warna: "#e82761", label: "Bangunan Perdagangan dan Jasa" },
+            { keyword: ["peribadatan", "ibadah", "masjid", "gereja"], warna: "#dada37", label: "Bangunan Peribadatan" },
+            { keyword: ["perkantoran", "kantor"], warna: "#788674", label: "Bangunan Perkantoran" },
+            { keyword: ["sosial"], warna: "#e98844", label: "Bangunan Sosial" },
+            { keyword: ["transportasi", "terminal", "stasiun"], warna: "#878e88", label: "Bangunan Transportasi" },
+            { keyword: ["jalan", "infrastruktur"], warna: "#ed2128", label: "Jalan" },
+            { keyword: ["pekarangan"], warna: "#f5b969", label: "Pekarangan" },
+            { keyword: ["pemakaman", "makam", "kuburan"], warna: "#82dfd6", label: "Pemakaman" },
+            { keyword: ["sawah", "basah"], warna: "#8cb1d8", label: "Sawah" },
+            { keyword: ["sungai", "air"], warna: "#3296dc", label: "Sungai" },
+            { keyword: ["tegalan", "ladang", "kebun"], warna: "#f58315", label: "Tegalan / Ladang" },
+            { keyword: [], warna: "#94a3b8", label: "Kosong / Lainnya", isDefault: true } 
         ];
+
+        // =========================================================================
 
         function buatLegendaOtomatis() {
-            // Membuat Legenda Bidang Tanah
             let htmlBidang = '<div class="legend-title">Legenda Bidang Tanah</div>';
             konfigurasiWarnaBidang.forEach(item => {
                 htmlBidang += `<div class="legend-item"><div class="color-box" style="background:${item.warna};"></div><span>${item.label}</span></div>`;
             });
             document.getElementById('leg-text-bidang').innerHTML = htmlBidang;
 
-            // Membuat Legenda Penutup Lahan
             let htmlPenutup = '<div class="legend-title">Legenda Penutup Lahan</div>';
             konfigurasiWarnaPenutup.forEach(item => {
                 htmlPenutup += `<div class="legend-item"><div class="color-box" style="background:${item.warna};"></div><span>${item.label}</span></div>`;
@@ -894,9 +899,6 @@
             document.getElementById('leg-text-penutup').innerHTML = htmlPenutup;
         }
 
-        // =========================================
-        // ======= ANIMASI & SISTEM DOM ===========
-        // =========================================
         AOS.init({ duration: 800, once: true, offset: 50 });
 
         window.addEventListener('scroll', function() {
@@ -999,7 +1001,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            buatLegendaOtomatis(); // Mengeksekusi generasi Legenda Dinamis
+            buatLegendaOtomatis(); 
 
             const ctx = document.getElementById('grafikDemografi').getContext('2d');
             myChart = new Chart(ctx, {
@@ -1104,13 +1106,11 @@
             }
         }
 
-        // Logic Baru Pewarnaan Dinamis Berdasarkan Konfigurasi Array
         function styleBidang(feature) {
             var prop = feature.properties;
             var jenis = prop.STATUS || prop.status || prop.HAK || prop.hak || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.JENIS || prop.jenis || "";
             jenis = jenis.toString().toLowerCase();
             
-            // Ambil warna default dari Array
             var warna = konfigurasiWarnaBidang.find(k => k.isDefault).warna; 
 
             for (let item of konfigurasiWarnaBidang) {
@@ -1124,13 +1124,11 @@
             return { fillColor: warna, color: "rgba(255,255,255,0.5)", weight: 1, fillOpacity: op, opacity: op };
         }
 
-        // Logic Baru Pewarnaan Dinamis Berdasarkan Konfigurasi Array
         function stylePenutup(feature) {
             var prop = feature.properties;
             var jenis = prop.JENIS || prop.jenis || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.PL || "";
             jenis = jenis.toString().toLowerCase();
             
-            // Ambil warna default dari Array
             var warna = konfigurasiWarnaPenutup.find(k => k.isDefault).warna;
 
             for (let item of konfigurasiWarnaPenutup) {
@@ -1151,11 +1149,6 @@
             googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{ maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }); 
             satelit = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }).addTo(map);
 
-            // ==============================
-            // PEMANGGILAN VARIABEL DATA TERBARU
-            // ==============================
-            
-            // 1. Batas Administrasi / Desa
             if (typeof json_BATAS_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
                 geoBatas = L.geoJSON(json_BATAS_ADMINISTRASI_DESKEL_LN_3, {
                     style: function() { 
@@ -1166,7 +1159,6 @@
                 }).addTo(map);
             } else { console.warn("Data Batas Administrasi tidak ditemukan."); }
 
-            // 2. Jaringan Jalan
             if (typeof json_JALAN_LN_2 !== 'undefined') {
                 geoJalan = L.geoJSON(json_JALAN_LN_2, {
                     style: function() { 
@@ -1177,7 +1169,6 @@
                 }).addTo(map);
             } else { console.warn("Data Jaringan Jalan tidak ditemukan."); }
 
-            // 3. Bidang Tanah (Telah diubah menjadi _1 sesuai permintaan)
             var jsBidangTanah = typeof json_BIDANG_TANAH_1 !== 'undefined' ? json_BIDANG_TANAH_1 : (typeof json_BIDANG_TANAH_0 !== 'undefined' ? json_BIDANG_TANAH_0 : null);
             if (jsBidangTanah) {
                 geoBidang = L.geoJSON(jsBidangTanah, {
@@ -1186,7 +1177,6 @@
                 }).addTo(map);
             } else { console.warn("Data Bidang Tanah tidak ditemukan."); }
 
-            // 4. Penutup Lahan (Telah diubah menjadi _0 sesuai permintaan)
             var jsPenutupLahan = typeof json_PENUTUP_LAHAN_0 !== 'undefined' ? json_PENUTUP_LAHAN_0 : (typeof json_PENUTUP_LAHAN_1 !== 'undefined' ? json_PENUTUP_LAHAN_1 : null);
             if (jsPenutupLahan) {
                 geoPenutup = L.geoJSON(jsPenutupLahan, {
@@ -1195,7 +1185,6 @@
                 }).addTo(map);
             } else { console.warn("Data Penutup Lahan tidak ditemukan."); }
 
-            // FitBounds Otomatis menyesuaikan jangkauan Data Terbaru
             setTimeout(function(){ 
                 map.invalidateSize(); 
                 if (geoBatas) {
@@ -1205,7 +1194,6 @@
                 }
             }, 400);
 
-            // Tautan UI DOM
             const radios = document.querySelectorAll('input[name="basemap"]');
             const chkBatas = document.getElementById('chk-batas');
             const chkJalan = document.getElementById('chk-jalan');
