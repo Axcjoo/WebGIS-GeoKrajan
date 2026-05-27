@@ -1148,8 +1148,8 @@
             googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{ maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }); 
             satelit = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }).addTo(map);
 
-            if (typeof json_BATAS_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
-                geoBatas = L.geoJSON(json_BATAS_ADMINISTRASI_DESKEL_LN_3, {
+            if (typeof json_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
+                geoBatas = L.geoJSON(json_ADMINISTRASI_DESKEL_LN_3, {
                     style: function() { 
                         var op = parseFloat(document.getElementById('op-batas').value);
                         return { color: '#cbd5e1', weight: 3, dashArray: '5, 5', fillOpacity: 0, opacity: op }; 
