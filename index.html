@@ -16,6 +16,7 @@
     <script src="data/JALAN_LN_2.js"></script>
     <script src="data/BIDANG_TANAH_1.js"></script>
     <script src="data/PENUTUP_LAHAN_0.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -41,7 +42,7 @@
         /* ===== LANDING PAGE WRAPPER ===== */
         .landing-wrapper { width: 100%; transition: opacity 0.5s ease-in-out; }
 
-        /* ===== HERO SECTION (MODIFIED - NO IMAGES, CENTERED GLASSMORPHISM) ===== */
+        /* ===== HERO SECTION ===== */
         .hero-section {
             position: relative; width: 100vw; min-height: 100vh; 
             background-color: #0f172a;
@@ -52,13 +53,8 @@
             color: white; display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* Animated CSS Abstract Shapes (replaces images) */
-        .bg-shapes {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; pointer-events: none;
-        }
-        .shape {
-            position: absolute; filter: blur(80px); opacity: 0.5; animation: floatShape 12s infinite ease-in-out alternate;
-        }
+        .bg-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; pointer-events: none; }
+        .shape { position: absolute; filter: blur(80px); opacity: 0.5; animation: floatShape 12s infinite ease-in-out alternate; }
         .shape-1 { width: 450px; height: 450px; background: #3b82f6; top: 5%; left: -5%; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         .shape-2 { width: 550px; height: 550px; background: #10b981; bottom: -10%; right: -5%; border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; animation-delay: -5s; }
         .shape-3 { width: 350px; height: 350px; background: #6366f1; top: 30%; left: 50%; transform: translateX(-50%); border-radius: 50%; animation-delay: -2s; opacity: 0.4;}
@@ -169,7 +165,6 @@
         .bg-white { background-color: #ffffff; }
         .bg-light-gray { background-color: #f8fafc; }
 
-        /* PROFIL & SEJARAH DESA */
         .profil-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; text-align: left; }
         .profil-text h2 { font-family: 'Poppins', sans-serif; font-size: 34px; color: var(--text-dark); margin-bottom: 15px; line-height: 1.3; }
         .profil-text h2 span { color: var(--accent); }
@@ -179,7 +174,6 @@
         .profil-image-wrapper img { width: 100%; height: 450px; object-fit: cover; display: block; transition: transform 0.6s ease; }
         .profil-image-wrapper:hover img { transform: scale(1.05); }
 
-        /* KONDISI GEOGRAFIS */
         .geo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; text-align: left; }
         .geo-card { background: #fff; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0; display: flex; align-items: flex-start; gap: 15px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.02);}
         .geo-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); }
@@ -191,7 +185,6 @@
         .geo-info p { margin: 0; color: #64748b; font-size: 14px; line-height: 1.5; }
         .geo-info ul { padding-left: 15px; margin: 5px 0 0 0; color: #64748b; font-size: 13px; line-height: 1.6; }
 
-        /* MONOGRAFI FILTER & CARDS */
         .filter-container { display: inline-flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 40px; background: #ffffff; padding: 15px 25px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
         .filter-container label { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--text-dark); }
         .filter-container select { padding: 8px 15px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: 'Inter', sans-serif; font-size: 15px; outline: none; cursor: pointer; background: #f8fafc; color: var(--text-dark); font-weight: 500; transition: 0.3s; }
@@ -202,10 +195,12 @@
         .stat-icon { width: 70px; height: 70px; margin: 0 auto 20px auto; background: rgba(59, 130, 246, 0.1); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; }
         .stat-card h3 { font-size: 36px; color: var(--text-dark); margin: 0 0 5px 0; font-family: 'Poppins', sans-serif; }
         .stat-card p { font-size: 15px; color: #64748b; margin: 0; font-weight: 500; }
+        
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 30px; }
         .card-box { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.03); text-align: left; transition: box-shadow 0.3s; overflow: hidden;}
         .card-box:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
         .card-box h3 { font-family: 'Poppins', sans-serif; color: var(--text-dark); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px; }
+        
         .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
         .data-table th { background-color: #f8fafc; color: #475569; font-weight: 600; text-align: left; padding: 12px 15px; border-bottom: 2px solid #e2e8f0; }
         .data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; }
@@ -213,7 +208,6 @@
         .data-table td:last-child, .data-table th:last-child { text-align: right; }
         .badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 12px; }
 
-        /* FASILITAS & INFRASTRUKTUR */
         .fasilitas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .fasilitas-item { background: #f8fafc; padding: 25px 20px; border-radius: 16px; text-align: center; border: 1px solid #e2e8f0; transition: 0.3s; }
         .fasilitas-item:hover { background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transform: translateY(-5px); border-color: var(--accent); }
@@ -221,7 +215,6 @@
         .fasilitas-item h4 { font-family: 'Poppins', sans-serif; color: var(--text-dark); margin: 0 0 5px 0; font-size: 16px; }
         .fasilitas-item p { color: #64748b; font-size: 13px; margin: 0; }
 
-        /* POTENSI DESA CARDS */
         .potensi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: left; }
         .potensi-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.4s ease; cursor: pointer; }
         .potensi-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15); }
@@ -233,7 +226,6 @@
         .potensi-card:hover .potensi-content h3 { color: var(--accent); }
         .potensi-content p { margin: 0; color: #64748b; font-size: 15px; line-height: 1.6; }
         
-        /* FOOTER PROFESIONAL */
         footer { background: #0f172a; color: white; padding: 60px 10% 30px 10%; border-top: 5px solid var(--accent); }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; text-align: left;}
         .footer-about h3 { font-family: 'Poppins', sans-serif; font-size: 24px; margin-top: 0; display: flex; align-items: center; gap: 10px; }
@@ -248,15 +240,12 @@
         .footer-contact i { color: var(--accent); margin-top: 4px; }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; text-align: center; color: #64748b; font-size: 14px; }
 
-        /* =========================================
-           WEBGIS MAP APPLICATION (REVISED SIDEBAR)
-           ========================================= */
+        /* ===== WEBGIS MAP APPLICATION ===== */
         .main-app { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; background: #0f0f0f; opacity: 0; transition: opacity 0.5s; font-family: 'Inter', sans-serif;}
         .main-app.active { opacity: 1; }
         
         #map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
         
-        /* DESAIN BARU KELUAR PETA - MINIMALIS & ELEGAN */
         .btn-back-map { 
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000; 
             background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.15); 
@@ -268,7 +257,6 @@
         .btn-back-map:hover { background: rgba(15, 23, 42, 0.95); border-color: #ef4444; color: white; transform: translateX(-50%) translateY(-2px); }
         .btn-back-map:hover i { transform: scale(1.1); }
 
-        /* PENCARIAN SPASIAL (SPATIAL SEARCH) */
         .spatial-search-box {
             position: absolute; top: 20px; left: 20px; width: 300px;
             background: var(--glass-bg); backdrop-filter: blur(16px);
@@ -289,7 +277,7 @@
         }
         .spatial-search-box button:hover { background: var(--accent-hover); }
 
-        /* ===== SIDEBAR KIRI (SISTEM KENDALI PETA) ===== */
+        /* ===== SIDEBAR KIRI ===== */
         .sidebar { 
             position: absolute; top: 85px; 
             left: 20px; width: 300px; 
@@ -317,14 +305,12 @@
         
         .section-title { font-size: 12px; font-weight: 700; color: var(--text-muted); margin: 20px 0 10px 0; font-family: 'Poppins', sans-serif; letter-spacing: 1px;}
         
-        /* Radio Custom */
         .radio-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 13px; font-weight: 500; cursor: pointer; color: #e2e8f0; }
         .radio-item input[type="radio"] { display: none; }
         .radio-custom { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #64748b; display: inline-block; position: relative; transition: 0.2s; }
         .radio-item input[type="radio"]:checked + .radio-custom { border-color: var(--accent); }
         .radio-item input[type="radio"]:checked + .radio-custom::after { content: ''; position: absolute; top: 3px; left: 3px; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
         
-        /* Checkbox Custom */
         .check-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 13px; font-weight: 500; cursor: pointer; color: #e2e8f0; }
         .check-item-left { display: flex; align-items: center; gap: 12px; }
         .check-item input[type="checkbox"] { display: none; }
@@ -332,14 +318,12 @@
         .check-item input[type="checkbox"]:checked + .check-custom { background: var(--accent); border-color: var(--accent); }
         .check-item input[type="checkbox"]:checked + .check-custom::after { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; color: white; font-size: 10px; }
         
-        /* Legend indicators in sidebar */
         .legend-indicator { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
         .legend-indicator.dashed { border: 2px dashed #cbd5e1; background: transparent; }
         .legend-indicator.orange { background: #f97316; }
         .legend-indicator.blue { background: #3b82f6; }
         .legend-indicator.red-line { background: #f87171; height: 4px; margin-top: 6px; }
 
-        /* Sliders */
         .slider-wrapper { margin-bottom: 15px; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);}
         .slider-labels { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #cbd5e1; font-family: 'Poppins', sans-serif;}
         .slider-labels span:last-child { color: var(--accent); }
@@ -349,7 +333,7 @@
         .btn-reset { width: 100%; padding: 10px; margin-top: 5px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-weight: 600; font-size: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;}
         .btn-reset:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); color: var(--accent-hover);}
 
-        /* ===== TOOLBAR KANAN (ALAT & FITUR SPASIAL) ===== */
+        /* ===== TOOLBAR KANAN ===== */
         .map-toolbar-right {
             position: absolute; top: 20px; right: 20px; width: 240px; 
             background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; 
@@ -386,7 +370,7 @@
         .map-toolbar-right.collapsed .toolbar-list { max-height: 0; border-top: none; }
         .map-toolbar-right.collapsed .toggle-icon { transform: rotate(180deg); }
 
-        /* ===== LEGENDA TEKS HTML DINAMIS (KANAN BAWAH) ===== */
+        /* ===== LEGENDA PETA ===== */
         .map-legend-right {
             position: absolute; bottom: 20px; right: 20px;
             background: var(--glass-bg); border: 1px solid var(--glass-border);
@@ -410,16 +394,9 @@
         .legend-content-wrapper::-webkit-scrollbar { width: 4px; }
         .legend-content-wrapper::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-        /* Collapse Rules for Legend */
-        .map-legend-right.collapsed .legend-content-wrapper {
-            max-height: 0; overflow: hidden; margin-top: 0; margin-bottom: 0;
-        }
-        .map-legend-right.collapsed .legend-main-header {
-            border-bottom: none; padding-bottom: 0; margin-bottom: 0;
-        }
-        .map-legend-right.collapsed .toggle-legend-icon {
-            transform: rotate(180deg);
-        }
+        .map-legend-right.collapsed .legend-content-wrapper { max-height: 0; overflow: hidden; margin-top: 0; margin-bottom: 0; }
+        .map-legend-right.collapsed .legend-main-header { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .map-legend-right.collapsed .toggle-legend-icon { transform: rotate(180deg); }
 
         .legend-section { display: none; }
         .legend-section.active { display: block; animation: fadeIn 0.4s ease-out; }
@@ -429,17 +406,12 @@
 
         /* ===== LEAFLET CONTROLS OVERRIDE ===== */
         .leaflet-left { margin-left: 330px !important; margin-top: 10px !important; }
-        
         .leaflet-control-zoom { border: none !important; box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;}
         .leaflet-control-zoom a { background: rgba(20, 26, 38, 0.95) !important; color: white !important; border: 1px solid rgba(255,255,255,0.15) !important; }
         .leaflet-control-zoom a:hover { background: rgba(59, 130, 246, 0.8) !important; }
-        
         .leaflet-popup-content-wrapper { background: rgba(20, 26, 38, 0.95); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
         .leaflet-popup-tip { background: rgba(20, 26, 38, 0.95); }
 
-        /* =========================================
-           MEDIA QUERIES (OPTIMALISASI MOBILE/HP)
-           ========================================= */
         @media (max-width: 992px) {
             .profil-grid, .geo-grid, .footer-grid { grid-template-columns: 1fr; gap: 40px;}
             .menu { display: none; }
@@ -473,7 +445,6 @@
 <body>
 
     <div class="landing-wrapper" id="landing">
-        
         <div class="hero-section" id="hero">
             <div class="bg-shapes">
                 <div class="shape shape-1"></div>
@@ -869,18 +840,19 @@
             </div>
             
             <div class="legend-content-wrapper" id="legend-content-wrapper">
+                
                 <div id="leg-text-bidang" class="legend-section active">
                     <div class="legend-title">Legenda Bidang Tanah</div>
                     <div class="legend-item"><div class="color-box" style="background:#e11d48;"></div><span>Hak Guna Bangunan</span></div>
                     <div class="legend-item"><div class="color-box" style="background:#86efac;"></div><span>Hak Milik</span></div>
                     <div class="legend-item"><div class="color-box" style="background:#fcd34d;"></div><span>Hak Pakai</span></div>
                     <div class="legend-item"><div class="color-box" style="background:#f97316;"></div><span>Hak Wakaf</span></div>
-                    <div class="legend-item"><div class="color-box" style="background:#3b82f6;"></div><span>Kosong</span></div>
+                    <div class="legend-item"><div class="color-box" style="background:#3b82f6;"></div><span>Kosong / Lainnya</span></div>
                 </div>
 
                 <div id="leg-text-penutup" class="legend-section active">
                     <div class="legend-title">Legenda Penutup Lahan</div>
-                    <div class="legend-item"><div class="color-box" style="background:#fca5a5;"></div><span>Bangunan Hunian</span></div>
+                    <div class="legend-item"><div class="color-box" style="background:#fca5a5;"></div><span>Bangunan Hunian / Pemukiman</span></div>
                     <div class="legend-item"><div class="color-box" style="background:#d8b4fe;"></div><span>Bangunan Industri</span></div>
                     <div class="legend-item"><div class="color-box" style="background:#6ee7b7;"></div><span>Bangunan Pendidikan</span></div>
                     <div class="legend-item"><div class="color-box" style="background:#fde047;"></div><span>Bangunan Peribadatan</span></div>
@@ -902,19 +874,13 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // INISIALISASI ANIMASI SCROLL AOS
         AOS.init({ duration: 800, once: true, offset: 50 });
 
-        // LOGIKA STICKY NAVBAR
         window.addEventListener('scroll', function() {
             var navbar = document.getElementById('main-nav');
             if (window.scrollY > 50) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
         });
-
-        // =========================================
-        // === LOGIKA MODAL LOGIN PAKSA (FORCED) ===
-        // =========================================
         
         window.addEventListener('load', () => {
             openLoginModal();
@@ -971,9 +937,6 @@
             closeLoginModal();
         }
 
-        // =========================================
-        // === DATABASE MONOGRAFI & GRAFIK ===
-        // =========================================
         const dataDesa = {
             "2025": { total: 2550, laki: 1250, perempuan: 1300, kk: 850, pekerjaan: [{ nama: "Petani / Pekebun", jumlah: 850 }, { nama: "Wiraswasta / Pelaku UMKM", jumlah: 420 }, { nama: "Pegawai Negeri Sipil (PNS)", jumlah: 115 }, { nama: "Karyawan Swasta", jumlah: 560 }, { nama: "Buruh Harian Lepas", jumlah: 310 }, { nama: "Lainnya / Belum Bekerja", jumlah: 295 }] },
             "2024": { total: 2480, laki: 1210, perempuan: 1270, kk: 820, pekerjaan: [{ nama: "Petani / Pekebun", jumlah: 870 }, { nama: "Wiraswasta / Pelaku UMKM", jumlah: 390 }, { nama: "Pegawai Negeri Sipil (PNS)", jumlah: 110 }, { nama: "Karyawan Swasta", jumlah: 520 }, { nama: "Buruh Harian Lepas", jumlah: 300 }, { nama: "Lainnya / Belum Bekerja", jumlah: 290 }] },
@@ -1103,11 +1066,6 @@
             legend.classList.toggle('collapsed');
         }
 
-        // ==============================
-        // STYLE & POPUP LOGIC (GEOJSON)
-        // ==============================
-        
-        // Membaca atribut secara dinamis ke dalam tabel popup Leaflet
         function bindPopupData(feature, layer) {
             if (feature.properties) {
                 var barisTabel = '';
@@ -1121,13 +1079,14 @@
             }
         }
 
-        // Style untuk Bidang Tanah (mencocokkan atribut terbaru)
+        // UPDATE: Penyesuaian agar script mengenali berbagai nama atribut yang digenerate QGIS
         function styleBidang(feature) {
             var prop = feature.properties;
-            var jenis = prop.STATUS || prop.status || prop.HAK || prop.hak || prop.KETERANGAN || prop.keterangan || "";
+            // Pengecekan cerdas berbagai kemungkinan nama field
+            var jenis = prop.STATUS || prop.status || prop.HAK || prop.hak || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.JENIS || prop.jenis || "";
             jenis = jenis.toString().toLowerCase();
             
-            var warna = "#3b82f6"; // default Kosong
+            var warna = "#3b82f6"; // default Kosong / Lainnya
             if (jenis.includes("guna bangunan") || jenis.includes("hgb")) warna = "#e11d48";
             else if (jenis.includes("milik") || jenis.includes("hm")) warna = "#86efac";
             else if (jenis.includes("pakai") || jenis.includes("hp")) warna = "#fcd34d";
@@ -1137,14 +1096,13 @@
             return { fillColor: warna, color: "rgba(255,255,255,0.5)", weight: 1, fillOpacity: op, opacity: op };
         }
 
-        // Style untuk Penutup Lahan (mendukung data Jalan, Sawah, Sungai yang baru diupload)
         function stylePenutup(feature) {
             var prop = feature.properties;
-            var jenis = prop.JENIS || prop.jenis || prop.KETERANGAN || prop.keterangan || prop.PL || "";
+            var jenis = prop.JENIS || prop.jenis || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.PL || "";
             jenis = jenis.toString().toLowerCase();
             
             var warna = "#94a3b8"; // default
-            if(jenis.includes("hunian") || jenis.includes("permukiman")) warna = "#fca5a5";
+            if(jenis.includes("hunian") || jenis.includes("pemukiman") || jenis.includes("permukiman")) warna = "#fca5a5";
             else if(jenis.includes("industri")) warna = "#d8b4fe";
             else if(jenis.includes("pendidikan")) warna = "#6ee7b7";
             else if(jenis.includes("peribadatan")) warna = "#fde047";
@@ -1152,7 +1110,7 @@
             else if(jenis.includes("sawah") || jenis.includes("basah")) warna = "#4ade80";
             else if(jenis.includes("tegalan") || jenis.includes("ladang")) warna = "#14b8a6";
             else if(jenis.includes("air") || jenis.includes("sungai")) warna = "#93c5fd";
-            else if(jenis.includes("jalan")) warna = "#a1a1aa"; // JALAN INFRASTRUKTUR
+            else if(jenis.includes("jalan")) warna = "#a1a1aa"; 
 
             var op = document.getElementById('op-penutup') ? parseFloat(document.getElementById('op-penutup').value) : 0.6;
             return { fillColor: warna, color: "transparent", weight: 0, fillOpacity: op };
@@ -1166,12 +1124,12 @@
             satelit = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }).addTo(map);
 
             // ==============================
-            // PEMANGGILAN VARIABEL QGIS2WEB (DATA TERBARU)
+            // PEMANGGILAN VARIABEL DATA TERBARU
             // ==============================
             
             // 1. Batas Administrasi / Desa
-            if (typeof json_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
-                geoBatas = L.geoJSON(json_ADMINISTRASI_DESKEL_LN_3, {
+            if (typeof json_BATAS_ADMINISTRASI_DESKEL_LN_3 !== 'undefined') {
+                geoBatas = L.geoJSON(json_BATAS_ADMINISTRASI_DESKEL_LN_3, {
                     style: function() { 
                         var op = parseFloat(document.getElementById('op-batas').value);
                         return { color: '#cbd5e1', weight: 3, dashArray: '5, 5', fillOpacity: 0, opacity: op }; 
@@ -1191,26 +1149,27 @@
                 }).addTo(map);
             } else { console.warn("Data Jaringan Jalan tidak ditemukan."); }
 
-            // 3. Bidang Tanah
-            if (typeof json_BIDANG_TANAH_1 !== 'undefined') {
-                geoBidang = L.geoJSON(json_BIDANG_TANAH_1, {
+            // 3. Bidang Tanah (Telah diubah menjadi _1 sesuai permintaan)
+            var jsBidangTanah = typeof json_BIDANG_TANAH_1 !== 'undefined' ? json_BIDANG_TANAH_1 : (typeof json_BIDANG_TANAH_0 !== 'undefined' ? json_BIDANG_TANAH_0 : null);
+            if (jsBidangTanah) {
+                geoBidang = L.geoJSON(jsBidangTanah, {
                     style: styleBidang,
                     onEachFeature: bindPopupData
                 }).addTo(map);
             } else { console.warn("Data Bidang Tanah tidak ditemukan."); }
 
-            // 4. Penutup Lahan
-            if (typeof json_PENUTUP_LAHAN_0 !== 'undefined') {
-                geoPenutup = L.geoJSON(json_PENUTUP_LAHAN_0, {
+            // 4. Penutup Lahan (Telah diubah menjadi _0 sesuai permintaan)
+            var jsPenutupLahan = typeof json_PENUTUP_LAHAN_0 !== 'undefined' ? json_PENUTUP_LAHAN_0 : (typeof json_PENUTUP_LAHAN_1 !== 'undefined' ? json_PENUTUP_LAHAN_1 : null);
+            if (jsPenutupLahan) {
+                geoPenutup = L.geoJSON(jsPenutupLahan, {
                     style: stylePenutup,
                     onEachFeature: bindPopupData
                 }).addTo(map);
             } else { console.warn("Data Penutup Lahan tidak ditemukan."); }
 
-            // UPDATE: FitBounds Otomatis menyesuaikan jangkauan Data Terbaru
+            // FitBounds Otomatis menyesuaikan jangkauan Data Terbaru
             setTimeout(function(){ 
                 map.invalidateSize(); 
-                // Sistem cerdas: Mencari layer mana yang ada, lalu memusatkan peta (Auto-Center) ke data tersebut
                 if (geoBatas) {
                     map.fitBounds(geoBatas.getBounds(), { padding: [20, 20] });
                 } else if (geoBidang) {
@@ -1235,7 +1194,6 @@
             const legTextBidang = document.getElementById('leg-text-bidang');
             const legTextPenutup = document.getElementById('leg-text-penutup');
 
-            // --- KONTROL BASEMAP ---
             radios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (this.value === 'satelit') {
@@ -1248,7 +1206,6 @@
                 });
             });
 
-            // --- FUNGSI UPDATE LEGENDA UI ---
             function updateLegendVisibility() {
                 const legContainer = document.getElementById('map-legend');
                 if (!chkBidang.checked && !chkPenutup.checked) {
@@ -1260,7 +1217,6 @@
                 }
             }
 
-            // --- KONTROL CHECKBOX DATA LAYER ---
             chkBatas.addEventListener('change', function() {
                 if(geoBatas) { if(this.checked) map.addLayer(geoBatas); else map.removeLayer(geoBatas); }
             });
@@ -1292,7 +1248,6 @@
                 updateLegendVisibility();
             });
 
-            // --- KONTROL TRANSPARANSI (SLIDER GEOJSON) ---
             function handleSliderGeoJSON(sliderEl, labelEl, layerGroup, isPolygon = true) {
                 if(layerGroup) {
                     sliderEl.addEventListener('input', function() {
@@ -1312,7 +1267,6 @@
             handleSliderGeoJSON(opBidang, lblBidang, geoBidang, true);
             handleSliderGeoJSON(opPenutup, lblPenutup, geoPenutup, true);
 
-            // --- TOMBOL RESET TRANSPARANSI ---
             document.getElementById('btn-reset-op').addEventListener('click', function() {
                 opBatas.value = 1; opJalan.value = 1; opBidang.value = 0.7; opPenutup.value = 0.6;
                 
@@ -1326,7 +1280,6 @@
                 updateSliderFill(opBatas); updateSliderFill(opJalan); updateSliderFill(opBidang); updateSliderFill(opPenutup);
             });
 
-            // INIT TOOLS (Digitasi)
             drawnItems = new L.FeatureGroup();
             map.addLayer(drawnItems);
             drawControl = new L.Control.Draw({
@@ -1341,9 +1294,6 @@
             });
         }
 
-        // ===========================================
-        // === PENCARIAN KOORDINAT (SPATIAL SEARCH) ==
-        // ===========================================
         function cariKoordinat() {
             let lat = parseFloat(document.getElementById('coord-lat').value);
             let lng = parseFloat(document.getElementById('coord-lng').value);
@@ -1364,9 +1314,6 @@
                 .openPopup();
         }
 
-        // ===========================================
-        // === UNDUH HASIL DIGITASI (EKSPOR GEOJSON) =
-        // ===========================================
         function unduhHasilDigitasi() {
             if (!drawnItems || drawnItems.getLayers().length === 0) {
                 alert("Tidak ada objek spasial yang ditemukan. Silakan lakukan digitasi polygon/garis/titik terlebih dahulu.");
