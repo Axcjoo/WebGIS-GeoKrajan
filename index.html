@@ -885,6 +885,7 @@
         // =========================================================================
 
         function buatLegendaOtomatis() {
+            // Membuat Legenda Bidang Tanah
             let htmlBidang = '<div class="legend-title">Legenda Bidang Tanah</div>';
             konfigurasiWarnaBidang.forEach(item => {
                 htmlBidang += `<div class="legend-item"><div class="color-box" style="background:${item.warna};"></div><span>${item.label}</span></div>`;
@@ -1105,11 +1106,13 @@
             }
         }
 
+        // Logic Baru Pewarnaan Dinamis Berdasarkan Konfigurasi Array
         function styleBidang(feature) {
             var prop = feature.properties;
             var jenis = prop.STATUS || prop.status || prop.HAK || prop.hak || prop.KETERANGAN || prop.keterangan || prop.REMARK || prop.remark || prop.JENIS || prop.jenis || "";
             jenis = jenis.toString().toLowerCase();
             
+            // Ambil warna default dari Array
             var warna = konfigurasiWarnaBidang.find(k => k.isDefault).warna; 
 
             for (let item of konfigurasiWarnaBidang) {
@@ -1168,6 +1171,7 @@
                 }).addTo(map);
             } else { console.warn("Data Jaringan Jalan tidak ditemukan."); }
 
+            // 3. Bidang Tanah (Telah diubah menjadi _1 sesuai permintaan)
             var jsBidangTanah = typeof json_BIDANG_TANAH_1 !== 'undefined' ? json_BIDANG_TANAH_1 : (typeof json_BIDANG_TANAH_0 !== 'undefined' ? json_BIDANG_TANAH_0 : null);
             if (jsBidangTanah) {
                 geoBidang = L.geoJSON(jsBidangTanah, {
