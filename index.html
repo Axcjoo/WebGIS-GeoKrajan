@@ -362,6 +362,7 @@
         }
         .spatial-search-box button:hover { transform: scale(1.05); box-shadow: 0 0 10px var(--accent-glow); }
 
+        /* PERBAIKAN: Live Coordinate diletakkan sejajar Zoom Controls */
         .live-coords { 
             position: absolute; bottom: 25px; left: 410px; z-index: 1000;
             background: var(--glass-bg); backdrop-filter: blur(10px); color: #cbd5e1; 
@@ -536,14 +537,47 @@
         
         .leaflet-bar { border: none !important; box-shadow: none !important; }
         .leaflet-bar a { 
-            background: var(--glass-bg) !important; backdrop-filter: blur(10px) !important; 
+            background-color: var(--glass-bg) !important; /* PERBAIKAN: Gunakan background-color agar image sprite tidak hilang */
+            backdrop-filter: blur(10px) !important; 
             color: white !important; transition: 0.3s !important; 
             border: 1px solid var(--glass-border) !important;
             border-radius: 50% !important; 
             width: 36px !important; height: 36px !important; line-height: 36px !important;
             margin-bottom: 8px !important; box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
         }
-        .leaflet-bar a:hover { background: var(--accent) !important; transform: scale(1.1); border-color: var(--accent) !important; box-shadow: 0 0 15px var(--accent-glow) !important; }
+        .leaflet-bar a:hover { background-color: var(--accent) !important; transform: scale(1.1); border-color: var(--accent) !important; box-shadow: 0 0 15px var(--accent-glow) !important; }
+
+        /* PERBAIKAN: Memunculkan icon Leaflet Draw Toolbar */
+        .leaflet-draw-toolbar a {
+            background-color: rgba(255, 255, 255, 0.9) !important; /* Background terang agar icon default (hitam) terlihat jelas */
+            background-image: url('https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/images/spritesheet.png') !important;
+            background-repeat: no-repeat !important;
+        }
+        .leaflet-retina .leaflet-draw-toolbar a {
+            background-image: url('https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/images/spritesheet-2x.png') !important;
+        }
+        .leaflet-draw-toolbar a:hover {
+            background-color: #e2e8f0 !important;
+        }
+        
+        /* Memperbaiki menu aksi (Cancel, Save) agar bisa dibaca */
+        .leaflet-draw-actions {
+            left: 45px !important; /* Menyesuaikan agar tidak tertutup tombol bulat */
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 8px !important;
+            border: 1px solid var(--glass-border) !important;
+            padding: 4px !important;
+        }
+        .leaflet-draw-actions a {
+            background-color: transparent !important;
+            background-image: none !important;
+            border-radius: 4px !important;
+            width: auto !important; height: auto !important; line-height: normal !important;
+            padding: 6px 12px !important; margin: 0 2px !important;
+            font-size: 12px !important; color: white !important; font-family: 'Inter', sans-serif !important;
+        }
+        .leaflet-draw-actions a:hover { background-color: var(--accent) !important; }
         
         .leaflet-popup-content-wrapper { 
             background: rgba(15, 23, 42, 0.85) !important; 
@@ -594,7 +628,7 @@
 
     <div id="splash-screen">
         <i class="fa-solid fa-map-location-dot splash-logo"></i>
-        <div class="splash-text">Sistem Informasi Pertanahan Desa Krajan</div>
+        <div class="splash-text">Sistem Informasi Pertanahan<br><span>Desa Krajan</span></div>
         <div class="splash-loader"></div>
     </div>
 
@@ -793,7 +827,7 @@
         <footer>
             <div class="footer-grid">
                 <div class="footer-about">
-                    <h3><i class="fa-solid fa-map-location-dot"></i> GeoKrajan</h3>
+                    <h3><i class="fa-solid fa-map-location-dot"></i> SIP Krajan</h3>
                     <p>Sistem Informasi Pertanahan (SIP) berbasis WebGIS yang dikembangkan untuk memberikan transparansi dan kemudahan akses data tata ruang, batas bidang tanah, serta potensi wilayah di Desa Krajan, Kecamatan Jatinom.</p>
                 </div>
                 <div class="footer-links">
