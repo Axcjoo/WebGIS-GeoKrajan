@@ -1049,9 +1049,13 @@
             </div>
             
             <div class="legend-content-wrapper" id="legend-content-wrapper">
+                <div id="leg-text-batas" class="legend-section active"></div>
+                <div id="leg-text-jalan" class="legend-section active"></div>
+
                 <div id="leg-text-bidang" class="legend-section active"></div>
                 <div id="leg-text-penutup" class="legend-section active"></div>
-                <div id="leg-text-nilaitanah" class="legend-section active"></div> </div>
+                <div id="leg-text-nilaitanah" class="legend-section active"></div>
+            </div>
         </div>
 
     </div>
@@ -1109,6 +1113,16 @@
         // =========================================================================
 
         function buatLegendaOtomatis() {
+            // TAMBAHAN: LEGENDA BATAS DESA
+            let htmlBatas = '<div class="legend-title">Batas Wilayah</div>';
+            htmlBatas += '<div class="legend-item"><div style="width: 18px; height: 0px; border-top: 3px dashed #fbbf24; flex-shrink: 0; margin-right: 2px;"></div><span>Batas Desa</span></div>';
+            document.getElementById('leg-text-batas').innerHTML = htmlBatas;
+
+            // TAMBAHAN: LEGENDA JARINGAN JALAN
+            let htmlJalan = '<div class="legend-title">Infrastruktur</div>';
+            htmlJalan += '<div class="legend-item"><div style="width: 18px; height: 4px; background: #ef4444; flex-shrink: 0; margin-right: 2px;"></div><span>Jaringan Jalan</span></div>';
+            document.getElementById('leg-text-jalan').innerHTML = htmlJalan;
+
             let htmlBidang = '<div class="legend-title">Legenda Bidang Tanah</div>';
             konfigurasiWarnaBidang.forEach(item => {
                 htmlBidang += `<div class="legend-item"><div class="color-box" style="background:${item.warna};"></div><span>${item.label}</span></div>`;
@@ -1121,7 +1135,7 @@
             });
             document.getElementById('leg-text-penutup').innerHTML = htmlPenutup;
 
-            // UPDATED: LOOP LEGENDA NILAI TANAH (Default ditaruh di atas agar urutan harganya logis)
+            // UPDATED: LOOP LEGENDA NILAI TANAH
             let htmlNilaiTanah = '<div class="legend-title">Nilai Indikasi Tanah (Rp/m²)</div>';
             konfigurasiWarnaNilaiTanah.forEach(item => {
                 htmlNilaiTanah += `<div class="legend-item"><div class="color-box" style="background:${item.warna}; border-color: rgba(0,0,0,0.5);"></div><span>${item.label}</span></div>`;
@@ -1277,7 +1291,6 @@
         // === LOGIKA LEAFLET & KENDALI PETA ===
         // =========================================
         var map, googleStreets, satelit;
-        // VARIABEL TAMBAHAN
         var geoBatas, geoJalan, geoBidang, geoPenutup, geoNilaiTanah;
         var mapInitialized = false;
         
@@ -1401,7 +1414,7 @@
             return { fillColor: warna, color: "transparent", weight: 0, fillOpacity: op };
         }
 
-        // UPDATED: FUNGSI STYLE NILAI TANAH (Gabung kosong ke default kuning)
+        // FUNGSI STYLE NILAI TANAH 
         function styleNilaiTanah(feature) {
             var prop = feature.properties;
             var harga = prop.HARGA || prop.harga || prop.NILAI || prop.nilai || prop.HARGA_TANAH || "";
@@ -1416,7 +1429,6 @@
                 }
             }
 
-            // Ganti border-color sedikit lebih gelap biar pop
             var op = document.getElementById('op-nilai-tanah') ? parseFloat(document.getElementById('op-nilai-tanah').value) : 0.5;
             return { fillColor: warna, color: "rgba(255,255,255,0.4)", weight: 1.2, fillOpacity: op, opacity: op };
         }
@@ -1468,7 +1480,6 @@
                 }).addTo(map);
             }
 
-            // INISIALISASI LAYER NILAI TANAH
             var jsNilaiTanah = typeof json_NILAI_TANAH_0 !== 'undefined' ? json_NILAI_TANAH_0 : null;
             if (jsNilaiTanah) {
                 geoNilaiTanah = L.geoJSON(jsNilaiTanah, {
@@ -1476,7 +1487,6 @@
                     onEachFeature: bindPopupData
                 });
                 
-                // Cek checkbox langsung agar jika defaultnya "checked" maka langsung muncul
                 if(document.getElementById('chk-nilai-tanah').checked) {
                     geoNilaiTanah.addTo(map);
                 }
@@ -1519,6 +1529,9 @@
             const lblPenutup = document.getElementById('lbl-penutup');
             const lblNilaiTanah = document.getElementById('lbl-nilai-tanah');
 
+            // TAMBAHAN: DOM Legenda Batas & Jalan
+            const legTextBatas = document.getElementById('leg-text-batas');
+            const legTextJalan = document.getElementById('leg-text-jalan');
             const legTextBidang = document.getElementById('leg-text-bidang');
             const legTextPenutup = document.getElementById('leg-text-penutup');
             const legTextNilaiTanah = document.getElementById('leg-text-nilaitanah');
@@ -1535,23 +1548,50 @@
                 });
             });
 
+            // UPDATED: Sinkronisasi visibilitas seluruh wrapper panel legenda
             function updateLegendVisibility() {
                 const legContainer = document.getElementById('map-legend');
-                if (!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked) {
+                if (!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked && !chkBatas.checked && !chkJalan.checked) {
                     legContainer.style.opacity = '0';
-                    setTimeout(() => { if(!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked) legContainer.style.display = 'none'; }, 400);
+                    setTimeout(() => { 
+                        if(!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked && !chkBatas.checked && !chkJalan.checked) {
+                            legContainer.style.display = 'none'; 
+                        }
+                    }, 400);
                 } else {
                     legContainer.style.display = 'flex';
                     setTimeout(() => { legContainer.style.opacity = '1'; }, 10);
                 }
             }
 
+            // UPDATED: Event Listener Toggle Layer Batas Desa
             chkBatas.addEventListener('change', function() {
-                if(geoBatas) { if(this.checked) map.addLayer(geoBatas); else map.removeLayer(geoBatas); }
+                if(geoBatas) { 
+                    if(this.checked) {
+                        map.addLayer(geoBatas); 
+                        legTextBatas.classList.add('active');
+                    } else {
+                        map.removeLayer(geoBatas); 
+                        legTextBatas.classList.remove('active');
+                    }
+                }
+                updateLegendVisibility();
             });
+
+            // UPDATED: Event Listener Toggle Layer Jaringan Jalan
             chkJalan.addEventListener('change', function() {
-                if(geoJalan) { if(this.checked) map.addLayer(geoJalan); else map.removeLayer(geoJalan); }
+                if(geoJalan) { 
+                    if(this.checked) {
+                        map.addLayer(geoJalan); 
+                        legTextJalan.classList.add('active');
+                    } else {
+                        map.removeLayer(geoJalan); 
+                        legTextJalan.classList.remove('active');
+                    }
+                }
+                updateLegendVisibility();
             });
+
             chkBidang.addEventListener('change', function() {
                 if(geoBidang) {
                     if(this.checked) {
@@ -1564,6 +1604,7 @@
                 }
                 updateLegendVisibility();
             });
+
             chkPenutup.addEventListener('change', function() {
                 if(geoPenutup) {
                     if(this.checked) {
@@ -1577,7 +1618,6 @@
                 updateLegendVisibility();
             });
 
-            // EVENT LISTENER UNTUK LAYER NILAI TANAH
             chkNilaiTanah.addEventListener('change', function() {
                 if(geoNilaiTanah) {
                     if(this.checked) {
@@ -1613,14 +1653,12 @@
             handleSliderGeoJSON(opNilaiTanah, lblNilaiTanah, geoNilaiTanah, true);
 
             document.getElementById('btn-reset-op').addEventListener('click', function() {
-                // UPDATE: Reset slider Nilai Tanah ke 50%
                 opBatas.value = 1; opJalan.value = 1; opBidang.value = 0.7; opPenutup.value = 0.6; opNilaiTanah.value = 0.5;
                 
                 if(geoBatas) geoBatas.setStyle({ opacity: 1 });
                 if(geoJalan) geoJalan.setStyle({ opacity: 1 });
                 if(geoBidang) geoBidang.setStyle({ fillOpacity: 0.7, opacity: 0.7 });
                 if(geoPenutup) geoPenutup.setStyle({ fillOpacity: 0.6, opacity: 0.6 });
-                // UPDATE: Reset opacity Nilai Tanah ke 50%
                 if(geoNilaiTanah) geoNilaiTanah.setStyle({ fillOpacity: 0.5, opacity: 0.5 }); 
 
                 lblBatas.innerText = '100%'; lblJalan.innerText = '100%'; lblBidang.innerText = '70%'; lblPenutup.innerText = '60%'; lblNilaiTanah.innerText = '50%';
