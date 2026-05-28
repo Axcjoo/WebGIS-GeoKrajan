@@ -22,11 +22,11 @@
     <style>
         /* ===== GLOBAL VARIABLES & RESET ===== */
         :root {
-            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-bg: rgba(15, 23, 42, 0.75);
             --glass-border: rgba(255, 255, 255, 0.15);
             --accent: #3b82f6; 
             --accent-hover: #60a5fa;
-            --accent-glow: rgba(59, 130, 246, 0.5);
+            --accent-glow: rgba(59, 130, 246, 0.6);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --bg-light: #f8fafc;
@@ -40,33 +40,53 @@
             background-color: var(--bg-light); overflow-x: hidden;
         }
 
-        /* INOVASI: Scroll Progress Bar & Kustomisasi Scrollbar Utama */
+        /* INOVASI TAHAP AKHIR: Cinematic Splash Screen */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #0f172a; z-index: 9999999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+        .splash-logo {
+            font-size: 60px; color: var(--accent); margin-bottom: 20px;
+            animation: splashPulse 1.5s infinite alternate; filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
+        .splash-text {
+            font-family: 'Poppins', sans-serif; font-size: 24px; color: white; font-weight: 700; letter-spacing: 2px;
+            background: linear-gradient(90deg, #60a5fa, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .splash-loader {
+            width: 200px; height: 3px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 3px; overflow: hidden; position: relative;
+        }
+        .splash-loader::after {
+            content: ''; position: absolute; top: 0; left: -50%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent); animation: loadingBar 1.5s infinite ease-in-out;
+        }
+        @keyframes splashPulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; } }
+        @keyframes loadingBar { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* Scroll Progress Bar & Kustomisasi Scrollbar Utama */
         #scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, #3b82f6, #10b981, #8b5cf6); z-index: 99999; transition: width 0.1s ease-out; border-radius: 0 2px 2px 0; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);}
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-hover); }
 
         /* ===== LANDING PAGE WRAPPER ===== */
-        .landing-wrapper { width: 100%; transition: opacity 0.5s ease-in-out; }
+        .landing-wrapper { width: 100%; transition: opacity 0.5s ease-in-out; opacity: 0; }
 
         /* ===== HERO SECTION ===== */
         .hero-section {
             position: relative; width: 100vw; min-height: 100vh; 
             background-color: #0f172a;
-            /* INOVASI: Animated Spatial Grid Background */
             background-image: 
                 linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
+            animation: gridMove 30s linear infinite;
             color: white; display: flex; flex-direction: column; overflow: hidden;
         }
 
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
-        }
+        @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 100px 100px; } }
 
         .bg-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; pointer-events: none; }
         .shape { position: absolute; filter: blur(90px); opacity: 0.6; animation: floatShape 15s infinite ease-in-out alternate; }
@@ -116,7 +136,6 @@
         }
         .hero-content-box h1 { font-size: 58px; margin: 0 0 20px 0; font-family: 'Poppins', sans-serif; line-height: 1.2; font-weight: 700; letter-spacing: -1px;}
         
-        /* INOVASI: Animasi Teks Gradien Fluid */
         .hero-content-box h1 span { 
             background: linear-gradient(270deg, #60a5fa, #10b981, #3b82f6, #8b5cf6);
             background-size: 300% 300%;
@@ -132,7 +151,6 @@
         .btn-group { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
         .btn { padding: 16px 36px; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; }
         
-        /* INOVASI: Tombol dengan efek Pulse Berdenyut */
         @keyframes pulse-glow {
             0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
@@ -206,6 +224,15 @@
         .bg-white { background-color: #ffffff; }
         .bg-light-gray { background-color: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;}
 
+        /* INOVASI TAHAP AKHIR: Holographic Shine pada Kartu */
+        .shine-effect { position: relative; overflow: hidden; }
+        .shine-effect::before {
+            content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); transition: 0.7s ease; z-index: 2; pointer-events: none;
+        }
+        .shine-effect:hover::before { left: 150%; transition: 0.7s ease; }
+
         .profil-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; text-align: left; }
         .profil-text h2 { font-family: 'Poppins', sans-serif; font-size: 38px; color: var(--text-dark); margin-bottom: 15px; line-height: 1.2; font-weight: 700;}
         .profil-text h2 span { background: linear-gradient(90deg, #2563eb, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -237,7 +264,7 @@
         .filter-container select:focus, .filter-container select:hover { border-color: var(--accent); background: #eff6ff; box-shadow: 0 0 15px rgba(59,130,246,0.15);}
         
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .stat-card { background: #fff; padding: 40px 20px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden;}
+        .stat-card { background: #fff; padding: 40px 20px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .stat-card::after { content: ''; position: absolute; width: 100px; height: 100px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); top: -50px; right: -50px; opacity: 0; transition: 0.4s; }
         .stat-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(59, 130, 246, 0.12); border-color: var(--accent); }
         .stat-card:hover::after { opacity: 1; }
@@ -247,7 +274,7 @@
         .stat-card p { font-size: 15px; color: #64748b; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
         
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 35px; margin-bottom: 40px; }
-        .card-box { background: #fff; padding: 35px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03); text-align: left; transition: 0.4s; overflow: hidden;}
+        .card-box { background: #fff; padding: 35px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03); text-align: left; transition: 0.4s;}
         .card-box:hover { box-shadow: 0 20px 50px rgba(59, 130, 246, 0.1); border-color: rgba(59,130,246,0.2);}
         .card-box h3 { font-family: 'Poppins', sans-serif; color: var(--text-dark); margin-top: 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 25px; font-weight: 600;}
         
@@ -269,9 +296,9 @@
         .fasilitas-item p { color: #64748b; font-size: 14px; margin: 0; line-height: 1.5;}
 
         .potensi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; text-align: left; }
-        .potensi-card { background: #fff; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.06); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: 1px solid rgba(0,0,0,0.02);}
+        .potensi-card { background: #fff; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.06); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: 1px solid rgba(0,0,0,0.02);}
         .potensi-card:hover { transform: translateY(-15px); box-shadow: 0 25px 50px rgba(59, 130, 246, 0.2); border-color: rgba(59,130,246,0.3);}
-        .img-overflow { overflow: hidden; width: 100%; height: 240px; position: relative; background: #e2e8f0; }
+        .img-overflow { overflow: hidden; width: 100%; height: 240px; position: relative; background: #e2e8f0; border-radius: 24px 24px 0 0;}
         .img-overflow::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); pointer-events: none;}
         .potensi-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; }
         .potensi-card:hover .potensi-img { transform: scale(1.15); }
@@ -299,7 +326,6 @@
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; color: #64748b; font-size: 14px; position: relative; z-index: 2;}
 
         /* ===== WEBGIS MAP APPLICATION ===== */
-        /* INOVASI: Kursor Berbentuk Crosshair untuk Kesan Analisis Spasial Profesional */
         #map { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: crosshair;}
         
         .main-app { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; background: #000; opacity: 0; transition: opacity 0.6s ease; font-family: 'Inter', sans-serif;}
@@ -337,7 +363,6 @@
         }
         .spatial-search-box button:hover { transform: scale(1.05); box-shadow: 0 0 10px var(--accent-glow); }
 
-        /* INOVASI: Live Coordinate Tracker Area */
         .live-coords { 
             position: absolute; bottom: 20px; left: 20px; z-index: 1000;
             background: var(--glass-bg); backdrop-filter: blur(10px); color: #cbd5e1; 
@@ -348,7 +373,6 @@
         .live-coords:hover { color: white; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);}
         .live-coords i { color: var(--accent); animation: pulse-glow 2s infinite;}
 
-        /* INOVASI: Elemen Arah Mata Angin / Kompas Floating */
         .compass-overlay {
             position: absolute; top: 20px; right: 300px; z-index: 1000;
             background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px);
@@ -370,6 +394,10 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); overflow: hidden;
             transition: max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s;
         }
+        /* INOVASI: Ambient Breathing Glow di belakang Sidebar */
+        .sidebar::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 40px rgba(59,130,246,0.1); z-index: -1; animation: breatheGlow 4s infinite alternate; pointer-events: none;}
+        @keyframes breatheGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
         .sidebar:hover { border-color: rgba(255,255,255,0.3); }
         
         .sidebar.collapsed { max-height: 60px; }
@@ -429,6 +457,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+        .map-toolbar-right::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 100%; box-shadow: inset 0 0 40px rgba(59,130,246,0.1); z-index: -1; animation: breatheGlow 4s infinite alternate; pointer-events: none; border-radius: 16px;}
         .map-toolbar-right:hover { border-color: rgba(255,255,255,0.3); }
         .toolbar-header { 
             padding: 15px 18px; 
@@ -504,11 +533,19 @@
         .legend-item:hover { transform: translateX(5px); color: white;}
         .color-box { width: 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
 
-        /* ===== INOVASI: LEAFLET CONTROLS & DARK POPUP OVERRIDE ===== */
+        /* ===== INOVASI TAHAP AKHIR: LEAFLET CONTROLS FULL CUSTOM ===== */
         .leaflet-left { margin-left: 350px !important; margin-top: 15px !important; }
-        .leaflet-control-zoom { border: 1px solid var(--glass-border) !important; box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important; border-radius: 12px !important; overflow: hidden;}
-        .leaflet-control-zoom a { background: var(--glass-bg) !important; backdrop-filter: blur(10px) !important; color: white !important; transition: 0.3s !important;}
-        .leaflet-control-zoom a:hover { background: rgba(59, 130, 246, 0.8) !important; }
+        
+        .leaflet-bar { border: none !important; box-shadow: none !important; }
+        .leaflet-bar a { 
+            background: var(--glass-bg) !important; backdrop-filter: blur(10px) !important; 
+            color: white !important; transition: 0.3s !important; 
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 50% !important; /* Membuat tombol membulat sempurna */
+            width: 36px !important; height: 36px !important; line-height: 36px !important;
+            margin-bottom: 8px !important; box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
+        }
+        .leaflet-bar a:hover { background: var(--accent) !important; transform: scale(1.1); border-color: var(--accent) !important; box-shadow: 0 0 15px var(--accent-glow) !important; }
         
         .leaflet-popup-content-wrapper { 
             background: rgba(15, 23, 42, 0.85) !important; 
@@ -554,6 +591,12 @@
     </style>
 </head>
 <body>
+
+    <div id="splash-screen">
+        <i class="fa-solid fa-map-location-dot splash-logo"></i>
+        <div class="splash-text">Sistem Informasi Pertanahan Krajan</div>
+        <div class="splash-loader"></div>
+    </div>
 
     <div id="scroll-progress"></div>
 
@@ -615,14 +658,14 @@
                 <p>Informasi mendasar mengenai letak astronomis, batas wilayah administratif, dan karakteristik topografi bentang alam Desa Krajan.</p>
             </div>
             <div class="geo-grid">
-                <div class="geo-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="geo-card shine-effect" data-aos="fade-up" data-aos-delay="100">
                     <div class="geo-icon blue"><i class="fa-solid fa-map"></i></div>
                     <div class="geo-info">
                         <h4>Luas & Koordinat Wilayah</h4>
                         <p>Desa Krajan berada pada titik koordinat strategis di Klaten dengan mayoritas tata guna lahan diperuntukkan bagi permukiman dan pertanian.</p>
                     </div>
                 </div>
-                <div class="geo-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="geo-card shine-effect" data-aos="fade-up" data-aos-delay="200">
                     <div class="geo-icon orange"><i class="fa-solid fa-border-all"></i></div>
                     <div class="geo-info">
                         <h4>Batas Administratif</h4>
@@ -634,7 +677,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="geo-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="geo-card shine-effect" data-aos="fade-up" data-aos-delay="300">
                     <div class="geo-icon purple"><i class="fa-solid fa-mountain-sun"></i></div>
                     <div class="geo-info">
                         <h4>Topografi & Iklim</h4>
@@ -662,22 +705,22 @@
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card shine-effect" data-aos="fade-up" data-aos-delay="100">
                     <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
                     <h3 id="val-total">0</h3>
                     <p>Total Penduduk</p>
                 </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card shine-effect" data-aos="fade-up" data-aos-delay="200">
                     <div class="stat-icon"><i class="fa-solid fa-person"></i></div>
                     <h3 id="val-laki">0</h3>
                     <p>Laki-Laki</p>
                 </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card shine-effect" data-aos="fade-up" data-aos-delay="300">
                     <div class="stat-icon" style="color: #ec4899; background: linear-gradient(135deg, rgba(236,72,153,0.1), rgba(236,72,153,0.2));"><i class="fa-solid fa-person-dress"></i></div>
                     <h3 id="val-perempuan">0</h3>
                     <p>Perempuan</p>
                 </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card shine-effect" data-aos="fade-up" data-aos-delay="400">
                     <div class="stat-icon" style="color: #10b981; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.2));"><i class="fa-solid fa-house-chimney-user"></i></div>
                     <h3 id="val-kk">0</h3>
                     <p>Kepala Keluarga</p>
@@ -685,12 +728,12 @@
             </div>
 
             <div class="dashboard-grid">
-                <div class="card-box" data-aos="fade-right">
+                <div class="card-box shine-effect" data-aos="fade-right">
                     <h3><i class="fa-solid fa-chart-column" style="color:var(--accent);"></i> Grafik Komposisi</h3>
                     <canvas id="grafikDemografi"></canvas>
                 </div>
                 
-                <div class="card-box" data-aos="fade-left">
+                <div class="card-box shine-effect" data-aos="fade-left">
                     <h3><i class="fa-solid fa-venus-mars" style="color:var(--accent);"></i> Rincian Kelamin & KK</h3>
                     <table class="data-table">
                         <thead><tr><th>Kategori Kelompok</th><th>Jumlah</th><th>Persentase</th></tr></thead>
@@ -700,7 +743,7 @@
             </div>
 
             <div class="dashboard-grid" style="grid-template-columns: 1fr;" data-aos="fade-up">
-                <div class="card-box">
+                <div class="card-box shine-effect">
                     <h3><i class="fa-solid fa-briefcase" style="color:var(--accent);"></i> Keterangan Jenis Pekerjaan</h3>
                     <table class="data-table">
                         <thead><tr><th>No</th><th>Sektor Pekerjaan / Mata Pencaharian</th><th>Jumlah Penduduk</th></tr></thead>
@@ -717,11 +760,11 @@
                 <p>Pemerintah Desa Krajan terus berupaya meningkatkan pemenuhan infrastruktur untuk menjamin kesejahteraan masyarakat.</p>
             </div>
             <div class="fasilitas-grid">
-                <div class="fasilitas-item" data-aos="zoom-in" data-aos-delay="100"><i class="fa-solid fa-school"></i><h4>Pendidikan</h4><p>SD Negeri, PAUD, & TK terintegrasi.</p></div>
-                <div class="fasilitas-item" data-aos="zoom-in" data-aos-delay="200"><i class="fa-solid fa-house-medical"></i><h4>Kesehatan</h4><p>Poskesdes & Bidan Desa aktif.</p></div>
-                <div class="fasilitas-item" data-aos="zoom-in" data-aos-delay="300"><i class="fa-solid fa-mosque"></i><h4>Peribadatan</h4><p>Masjid Jami' dan Mushola RT/RW.</p></div>
-                <div class="fasilitas-item" data-aos="zoom-in" data-aos-delay="400"><i class="fa-solid fa-building-columns"></i><h4>Pusat Desa</h4><p>Balai Desa & Lapangan Olahraga.</p></div>
-                <div class="fasilitas-item" data-aos="zoom-in" data-aos-delay="500"><i class="fa-solid fa-shop"></i><h4>Ekonomi</h4><p>BUMDes & Pasar Tradisional lokal.</p></div>
+                <div class="fasilitas-item shine-effect" data-aos="zoom-in" data-aos-delay="100"><i class="fa-solid fa-school"></i><h4>Pendidikan</h4><p>SD Negeri, PAUD, & TK terintegrasi.</p></div>
+                <div class="fasilitas-item shine-effect" data-aos="zoom-in" data-aos-delay="200"><i class="fa-solid fa-house-medical"></i><h4>Kesehatan</h4><p>Poskesdes & Bidan Desa aktif.</p></div>
+                <div class="fasilitas-item shine-effect" data-aos="zoom-in" data-aos-delay="300"><i class="fa-solid fa-mosque"></i><h4>Peribadatan</h4><p>Masjid Jami' dan Mushola RT/RW.</p></div>
+                <div class="fasilitas-item shine-effect" data-aos="zoom-in" data-aos-delay="400"><i class="fa-solid fa-building-columns"></i><h4>Pusat Desa</h4><p>Balai Desa & Lapangan Olahraga.</p></div>
+                <div class="fasilitas-item shine-effect" data-aos="zoom-in" data-aos-delay="500"><i class="fa-solid fa-shop"></i><h4>Ekonomi</h4><p>BUMDes & Pasar Tradisional lokal.</p></div>
             </div>
         </section>
 
@@ -732,15 +775,15 @@
                 <p>Pilar penggerak ekonomi dan sumber daya alam yang mendukung kesejahteraan warga Krajan.</p>
             </div>
             <div class="potensi-grid">
-                <div class="potensi-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="potensi-card shine-effect" data-aos="fade-up" data-aos-delay="100">
                     <div class="img-overflow"><img src="https://koranbernas.id/uploads/images/202409/image_870x_66f537cd14046.jpg" alt="Pertanian" class="potensi-img"></div>
                     <div class="potensi-content"><h3>Pertanian & Perkebunan</h3><p>Lahan subur di Krajan menghasilkan komoditas unggulan seperti padi, jagung, dan sayur-mayur.</p></div>
                 </div>
-                <div class="potensi-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="potensi-card shine-effect" data-aos="fade-up" data-aos-delay="200">
                     <div class="img-overflow"><img src="https://prokopim.klaten.go.id/uploads/images/image_750x415_66922c3ee149a.jpg" alt="UMKM Lokal" class="potensi-img"></div>
                     <div class="potensi-content"><h3>UMKM Lokal</h3><p>Sektor industri rumahan yang memproduksi makanan olahan tradisional, kerajinan tangan, serta produk lokal lain.</p></div>
                 </div>
-                <div class="potensi-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="potensi-card shine-effect" data-aos="fade-up" data-aos-delay="300">
                     <div class="img-overflow"><img src="https://assets.espos.id/images/2024/04/TRADISI-MANDI-SAPI-2.jpg" alt="Peternakan" class="potensi-img"></div>
                     <div class="potensi-content"><h3>Peternakan</h3><p>Aktivitas peternakan sapi, kambing, dan unggas yang dikelola baik secara mandiri maupun kelompok ternak.</p></div>
                 </div>
@@ -944,9 +987,10 @@
                 <i class="fa-solid fa-chevron-up toggle-icon"></i>
             </div>
             <ul class="toolbar-list">
-                <li class="tool-item" id="btn-ukur" onclick="toggleDraw()"><i class="fa-solid fa-ruler-combined"></i> Pengukuran Jarak/Luas</li>
+                <li class="tool-item" onclick="toggleFullScreen()"><i class="fa-solid fa-expand"></i> Mode Layar Penuh</li>
+                <li class="tool-item" id="btn-ukur" onclick="toggleDraw()"><i class="fa-solid fa-ruler-combined"></i> Pengukuran Spasial</li>
                 <li class="tool-item" id="btn-draw" onclick="toggleDraw()"><i class="fa-solid fa-draw-polygon"></i> Digitasi Polygon</li>
-                <li class="tool-item" onclick="unduhHasilDigitasi()"><i class="fa-solid fa-download"></i> Unduh Hasil GeoJSON</li>
+                <li class="tool-item" onclick="unduhHasilDigitasi()"><i class="fa-solid fa-download"></i> Unduh Format GeoJSON</li>
                 <li class="tool-item" onclick="bukaInfografis()"><i class="fa-solid fa-chart-pie"></i> Infografis Dashboard</li>
             </ul>
         </div>
@@ -1024,20 +1068,28 @@
 
         AOS.init({ duration: 800, once: true, offset: 50 });
 
+        // INOVASI: Logika untuk Splash Screen transisi halus
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+                document.getElementById('landing').style.opacity = '1';
+                
+                // Panggil Modal Auth setelah splash selesai
+                setTimeout(() => { openLoginModal(); }, 500);
+            }, 1800);
+        });
+
         window.addEventListener('scroll', function() {
             var navbar = document.getElementById('main-nav');
             if (window.scrollY > 50) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
 
-            // INOVASI: Logika Scroll Progress Bar
             var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             var scrolled = (winScroll / height) * 100;
             document.getElementById("scroll-progress").style.width = scrolled + "%";
-        });
-        
-        window.addEventListener('load', () => {
-            openLoginModal();
         });
 
         function openLoginModal() {
@@ -1176,6 +1228,23 @@
             slider.style.background = `linear-gradient(to right, var(--accent) ${val}%, #334155 ${val}%)`;
         }
 
+        // INOVASI: Integrasi API Fullscreen Murni
+        function toggleFullScreen() {
+            var doc = window.document;
+            var docEl = doc.documentElement;
+
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
+                alert("Mode Layar Penuh diaktifkan untuk pengalaman maksimal.");
+            }
+            else {
+                cancelFullScreen.call(doc);
+            }
+        }
+
         function masuk() {
             document.getElementById("landing").style.display = "none";
             let mapApp = document.getElementById("main-app");
@@ -1278,7 +1347,6 @@
             googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{ maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }); 
             satelit = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '&copy; Google Maps' }).addTo(map);
 
-            // INOVASI: Event untuk Live Coordinates Tracker
             map.on('mousemove', function(e) {
                 document.getElementById('live-coords').innerHTML = `<i class="fa-solid fa-satellite-dish"></i> LAT: ${e.latlng.lat.toFixed(5)} | LNG: ${e.latlng.lng.toFixed(5)}`;
             });
@@ -1499,7 +1567,7 @@
                 isDrawActive = true;
                 document.getElementById('btn-draw').classList.add('active');
                 document.getElementById('btn-ukur').classList.add('active');
-                alert("Mode Digitasi & Pengukuran Aktif!\nSilakan gunakan toolbar kecil yang muncul di KIRI BAWAH peta. Untuk mengunduh hasilnya, klik fitur 'Unduh Hasil GeoJSON'.");
+                alert("Mode Digitasi & Pengukuran Aktif!\nSilakan gunakan kontrol di KIRI BAWAH peta. Untuk mengunduh hasilnya, klik fitur 'Unduh Format GeoJSON'.");
             }
         }
 
