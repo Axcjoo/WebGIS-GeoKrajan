@@ -14,6 +14,7 @@
 
     <script src="data/ADMINISTRASI_LN_DESKEL_3.js"></script>
     <script src="data/JALAN_LN_2.js"></script>
+    <script src="data/SUGAI_LN_0.js"></script>
     <script src="data/BIDANG_TANAH_1.js"></script>
     <script src="data/PENUTUP_LAHAN_0.js"></script>
     <script src="data/NILAI_TANAH_0.js"></script>
@@ -436,6 +437,8 @@
         .legend-indicator { width: 18px; height: 18px; border-radius: 4px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
         .legend-indicator.dashed { border: 2px dashed #fbbf24; background: rgba(251,191,36,0.1); }
         .legend-indicator.red-line { background: #ef4444; height: 4px; margin-top: 7px; border: none;}
+        /* TAMBAHAN: Style untuk indikator sungai di checklist */
+        .legend-indicator.blue-line { background: #3b82f6; height: 4px; margin-top: 7px; border: none;}
 
         .slider-wrapper { margin-bottom: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;}
         .slider-wrapper:hover { border-color: rgba(255,255,255,0.15); background: rgba(0,0,0,0.3);}
@@ -959,6 +962,13 @@
                     </label>
                     <label class="check-item">
                         <div class="check-item-left">
+                            <input type="checkbox" id="chk-sungai" checked>
+                            <span class="check-custom"></span> Jaringan Sungai
+                        </div>
+                        <span class="legend-indicator blue-line"></span>
+                    </label>
+                    <label class="check-item">
+                        <div class="check-item-left">
                             <input type="checkbox" id="chk-bidang" checked>
                             <span class="check-custom"></span> Bidang Tanah
                         </div>
@@ -995,6 +1005,14 @@
                         <span id="lbl-jalan">100%</span>
                     </div>
                     <input type="range" id="op-jalan" class="range-slider" min="0" max="1" step="0.01" value="1">
+                </div>
+
+                <div class="slider-wrapper">
+                    <div class="slider-labels">
+                        <span>Jaringan Sungai</span>
+                        <span id="lbl-sungai">100%</span>
+                    </div>
+                    <input type="range" id="op-sungai" class="range-slider" min="0" max="1" step="0.01" value="1">
                 </div>
 
                 <div class="slider-wrapper">
@@ -1051,6 +1069,7 @@
             <div class="legend-content-wrapper" id="legend-content-wrapper">
                 <div id="leg-text-batas" class="legend-section active"></div>
                 <div id="leg-text-jalan" class="legend-section active"></div>
+                <div id="leg-text-sungai" class="legend-section active"></div>
 
                 <div id="leg-text-bidang" class="legend-section active"></div>
                 <div id="leg-text-penutup" class="legend-section active"></div>
@@ -1099,9 +1118,7 @@
             { keyword: [], warna: "#94a3b8", label: "Kosong / Lainnya", isDefault: true } 
         ];
 
-        // UPDATED: KONFIGURASI WARNA NILAI TANAH (TIDAK ADA LAYER LAINNYA, GABUNG KE < 100K)
         const konfigurasiWarnaNilaiTanah = [
-            // "Kosong", null, atau keyword apapun yang tidak masuk range lain akan masuk ke default ini
             { keyword: [], warna: "#ffffb2", label: "< Rp 100.000", isDefault: true },
             { keyword: ["100.000 - 200.000"], warna: "#fed976", label: "Rp 100.000 - 200.000" },
             { keyword: ["200.000 - 500.000"], warna: "#feb24c", label: "Rp 200.000 - 500.000" },
@@ -1113,15 +1130,18 @@
         // =========================================================================
 
         function buatLegendaOtomatis() {
-            // TAMBAHAN: LEGENDA BATAS DESA
             let htmlBatas = '<div class="legend-title">Batas Wilayah</div>';
             htmlBatas += '<div class="legend-item"><div style="width: 18px; height: 0px; border-top: 3px dashed #fbbf24; flex-shrink: 0; margin-right: 2px;"></div><span>Batas Desa</span></div>';
             document.getElementById('leg-text-batas').innerHTML = htmlBatas;
 
-            // TAMBAHAN: LEGENDA JARINGAN JALAN
             let htmlJalan = '<div class="legend-title">Infrastruktur</div>';
             htmlJalan += '<div class="legend-item"><div style="width: 18px; height: 4px; background: #ef4444; flex-shrink: 0; margin-right: 2px;"></div><span>Jaringan Jalan</span></div>';
             document.getElementById('leg-text-jalan').innerHTML = htmlJalan;
+
+            // TAMBAHAN: AUTO-GENERATE LEGENDA SUNGAI
+            let htmlSungai = '<div class="legend-title">Perairan</div>';
+            htmlSungai += '<div class="legend-item"><div style="width: 18px; height: 4px; background: #3b82f6; flex-shrink: 0; margin-right: 2px;"></div><span>Jaringan Sungai</span></div>';
+            document.getElementById('leg-text-sungai').innerHTML = htmlSungai;
 
             let htmlBidang = '<div class="legend-title">Legenda Bidang Tanah</div>';
             konfigurasiWarnaBidang.forEach(item => {
@@ -1135,7 +1155,6 @@
             });
             document.getElementById('leg-text-penutup').innerHTML = htmlPenutup;
 
-            // UPDATED: LOOP LEGENDA NILAI TANAH
             let htmlNilaiTanah = '<div class="legend-title">Nilai Indikasi Tanah (Rp/m²)</div>';
             konfigurasiWarnaNilaiTanah.forEach(item => {
                 htmlNilaiTanah += `<div class="legend-item"><div class="color-box" style="background:${item.warna}; border-color: rgba(0,0,0,0.5);"></div><span>${item.label}</span></div>`;
@@ -1282,6 +1301,7 @@
             updateData();
             updateSliderFill(document.getElementById('op-batas'));
             updateSliderFill(document.getElementById('op-jalan'));
+            updateSliderFill(document.getElementById('op-sungai')); // UPDATED
             updateSliderFill(document.getElementById('op-bidang'));
             updateSliderFill(document.getElementById('op-penutup'));
             updateSliderFill(document.getElementById('op-nilai-tanah')); 
@@ -1291,7 +1311,8 @@
         // === LOGIKA LEAFLET & KENDALI PETA ===
         // =========================================
         var map, googleStreets, satelit;
-        var geoBatas, geoJalan, geoBidang, geoPenutup, geoNilaiTanah;
+        // VARIABEL TAMBAHAN
+        var geoBatas, geoJalan, geoSungai, geoBidang, geoPenutup, geoNilaiTanah;
         var mapInitialized = false;
         
         var drawControl = null;
@@ -1414,7 +1435,6 @@
             return { fillColor: warna, color: "transparent", weight: 0, fillOpacity: op };
         }
 
-        // FUNGSI STYLE NILAI TANAH 
         function styleNilaiTanah(feature) {
             var prop = feature.properties;
             var harga = prop.HARGA || prop.harga || prop.NILAI || prop.nilai || prop.HARGA_TANAH || "";
@@ -1464,6 +1484,20 @@
                 }).addTo(map);
             }
 
+            // TAMBAHAN: INISIALISASI LAYER SUNGAI
+            if (typeof json_SUGAI_LN_0 !== 'undefined') {
+                geoSungai = L.geoJSON(json_SUGAI_LN_0, {
+                    style: function() { 
+                        var op = parseFloat(document.getElementById('op-sungai').value);
+                        return { color: '#3b82f6', weight: 4, fillOpacity: 0, opacity: op }; 
+                    },
+                    onEachFeature: bindPopupData
+                });
+                if(document.getElementById('chk-sungai').checked) {
+                    geoSungai.addTo(map);
+                }
+            }
+
             var jsBidangTanah = typeof json_BIDANG_TANAH_1 !== 'undefined' ? json_BIDANG_TANAH_1 : (typeof json_BIDANG_TANAH_0 !== 'undefined' ? json_BIDANG_TANAH_0 : null);
             if (jsBidangTanah) {
                 geoBidang = L.geoJSON(jsBidangTanah, {
@@ -1500,38 +1534,45 @@
                     map.fitBounds(geoNilaiTanah.getBounds(), { padding: [20, 20] });
                 } else if (geoPenutup) {
                     map.fitBounds(geoPenutup.getBounds(), { padding: [20, 20] });
+                } else if (geoSungai) { // Fallback Sungai
+                    map.fitBounds(geoSungai.getBounds(), { padding: [20, 20] });
                 } else if (geoBatas) {
                     map.fitBounds(geoBatas.getBounds(), { padding: [20, 20] });
                 }
 
+                // URUTAN RENDER: Poligon (bawah) ke Garis (atas)
                 if (geoPenutup) geoPenutup.bringToBack();
                 if (geoNilaiTanah) geoNilaiTanah.bringToBack();
-                if (geoJalan) geoJalan.bringToFront();
-                if (geoBatas) geoBatas.bringToFront();
+                if (geoSungai) geoSungai.bringToFront(); // Sungai di atas polygon tanah
+                if (geoJalan) geoJalan.bringToFront();   // Jalan di atas sungai
+                if (geoBatas) geoBatas.bringToFront();   // Batas paling atas
             }, 400);
 
             const radios = document.querySelectorAll('input[name="basemap"]');
             const chkBatas = document.getElementById('chk-batas');
             const chkJalan = document.getElementById('chk-jalan');
+            const chkSungai = document.getElementById('chk-sungai'); // UPDATED
             const chkBidang = document.getElementById('chk-bidang');
             const chkPenutup = document.getElementById('chk-penutup');
             const chkNilaiTanah = document.getElementById('chk-nilai-tanah');
 
             const opBatas = document.getElementById('op-batas');
             const opJalan = document.getElementById('op-jalan');
+            const opSungai = document.getElementById('op-sungai'); // UPDATED
             const opBidang = document.getElementById('op-bidang');
             const opPenutup = document.getElementById('op-penutup');
             const opNilaiTanah = document.getElementById('op-nilai-tanah');
 
             const lblBatas = document.getElementById('lbl-batas');
             const lblJalan = document.getElementById('lbl-jalan');
+            const lblSungai = document.getElementById('lbl-sungai'); // UPDATED
             const lblBidang = document.getElementById('lbl-bidang');
             const lblPenutup = document.getElementById('lbl-penutup');
             const lblNilaiTanah = document.getElementById('lbl-nilai-tanah');
 
-            // TAMBAHAN: DOM Legenda Batas & Jalan
             const legTextBatas = document.getElementById('leg-text-batas');
             const legTextJalan = document.getElementById('leg-text-jalan');
+            const legTextSungai = document.getElementById('leg-text-sungai'); // UPDATED
             const legTextBidang = document.getElementById('leg-text-bidang');
             const legTextPenutup = document.getElementById('leg-text-penutup');
             const legTextNilaiTanah = document.getElementById('leg-text-nilaitanah');
@@ -1548,13 +1589,13 @@
                 });
             });
 
-            // UPDATED: Sinkronisasi visibilitas seluruh wrapper panel legenda
             function updateLegendVisibility() {
                 const legContainer = document.getElementById('map-legend');
-                if (!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked && !chkBatas.checked && !chkJalan.checked) {
+                // UPDATED: Termasuk chkSungai
+                if (!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked && !chkBatas.checked && !chkJalan.checked && !chkSungai.checked) {
                     legContainer.style.opacity = '0';
                     setTimeout(() => { 
-                        if(!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked && !chkBatas.checked && !chkJalan.checked) {
+                        if(!chkBidang.checked && !chkPenutup.checked && !chkNilaiTanah.checked && !chkBatas.checked && !chkJalan.checked && !chkSungai.checked) {
                             legContainer.style.display = 'none'; 
                         }
                     }, 400);
@@ -1564,7 +1605,6 @@
                 }
             }
 
-            // UPDATED: Event Listener Toggle Layer Batas Desa
             chkBatas.addEventListener('change', function() {
                 if(geoBatas) { 
                     if(this.checked) {
@@ -1578,7 +1618,6 @@
                 updateLegendVisibility();
             });
 
-            // UPDATED: Event Listener Toggle Layer Jaringan Jalan
             chkJalan.addEventListener('change', function() {
                 if(geoJalan) { 
                     if(this.checked) {
@@ -1587,6 +1626,23 @@
                     } else {
                         map.removeLayer(geoJalan); 
                         legTextJalan.classList.remove('active');
+                    }
+                }
+                updateLegendVisibility();
+            });
+
+            // TAMBAHAN: Event Listener Toggle Layer Sungai
+            chkSungai.addEventListener('change', function() {
+                if(geoSungai) { 
+                    if(this.checked) {
+                        map.addLayer(geoSungai); 
+                        geoSungai.bringToFront();
+                        if(geoJalan) geoJalan.bringToFront(); // Pastikan jalan tetap di atas sungai
+                        if(geoBatas) geoBatas.bringToFront(); 
+                        legTextSungai.classList.add('active');
+                    } else {
+                        map.removeLayer(geoSungai); 
+                        legTextSungai.classList.remove('active');
                     }
                 }
                 updateLegendVisibility();
@@ -1648,22 +1704,24 @@
 
             handleSliderGeoJSON(opBatas, lblBatas, geoBatas, false);
             handleSliderGeoJSON(opJalan, lblJalan, geoJalan, false);
+            handleSliderGeoJSON(opSungai, lblSungai, geoSungai, false); // UPDATED
             handleSliderGeoJSON(opBidang, lblBidang, geoBidang, true);
             handleSliderGeoJSON(opPenutup, lblPenutup, geoPenutup, true);
             handleSliderGeoJSON(opNilaiTanah, lblNilaiTanah, geoNilaiTanah, true);
 
             document.getElementById('btn-reset-op').addEventListener('click', function() {
-                opBatas.value = 1; opJalan.value = 1; opBidang.value = 0.7; opPenutup.value = 0.6; opNilaiTanah.value = 0.5;
+                opBatas.value = 1; opJalan.value = 1; opSungai.value = 1; opBidang.value = 0.7; opPenutup.value = 0.6; opNilaiTanah.value = 0.5;
                 
                 if(geoBatas) geoBatas.setStyle({ opacity: 1 });
                 if(geoJalan) geoJalan.setStyle({ opacity: 1 });
+                if(geoSungai) geoSungai.setStyle({ opacity: 1 }); // UPDATED
                 if(geoBidang) geoBidang.setStyle({ fillOpacity: 0.7, opacity: 0.7 });
                 if(geoPenutup) geoPenutup.setStyle({ fillOpacity: 0.6, opacity: 0.6 });
                 if(geoNilaiTanah) geoNilaiTanah.setStyle({ fillOpacity: 0.5, opacity: 0.5 }); 
 
-                lblBatas.innerText = '100%'; lblJalan.innerText = '100%'; lblBidang.innerText = '70%'; lblPenutup.innerText = '60%'; lblNilaiTanah.innerText = '50%';
+                lblBatas.innerText = '100%'; lblJalan.innerText = '100%'; lblSungai.innerText = '100%'; lblBidang.innerText = '70%'; lblPenutup.innerText = '60%'; lblNilaiTanah.innerText = '50%';
 
-                updateSliderFill(opBatas); updateSliderFill(opJalan); updateSliderFill(opBidang); updateSliderFill(opPenutup); updateSliderFill(opNilaiTanah);
+                updateSliderFill(opBatas); updateSliderFill(opJalan); updateSliderFill(opSungai); updateSliderFill(opBidang); updateSliderFill(opPenutup); updateSliderFill(opNilaiTanah);
             });
 
             drawnItems = new L.FeatureGroup();
