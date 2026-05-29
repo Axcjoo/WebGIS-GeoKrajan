@@ -24,7 +24,7 @@
     <style>
         /* ===== GLOBAL VARIABLES & RESET ===== */
         :root {
-            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-bg: rgba(15, 23, 42, 0.85);
             --glass-border: rgba(255, 255, 255, 0.15);
             --accent: #3b82f6; 
             --accent-hover: #60a5fa;
@@ -181,7 +181,7 @@
         .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #cbd5e1; font-weight: 500;}
         .input-group i { position: absolute; left: 15px; top: 40px; transform: translateY(-50%); color: #94a3b8; transition: 0.3s;}
         .input-group input, .input-group select { width: 100%; padding: 14px 15px 14px 45px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-family: 'Inter', sans-serif; outline: none; box-sizing: border-box; transition: 0.3s; appearance: none;}
-        .input-group select { padding-left: 15px; }
+        .input-group select { padding-left: 15px; cursor:pointer;}
         .input-group input:focus, .input-group select:focus { border-color: var(--accent); background: rgba(0,0,0,0.6); box-shadow: 0 0 10px rgba(59,130,246,0.2);}
         .input-group input:focus + i { color: var(--accent); }
         
@@ -825,33 +825,6 @@
         </footer>
     </div>
 
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <i class="fa-solid fa-user-shield"></i>
-                <h2 id="modalTitle">Selamat Datang</h2>
-                <p id="modalDesc">Akses web membutuhkan autentikasi</p>
-            </div>
-            <div class="auth-switch">
-                <button class="active" id="btn-tab-login" onclick="switchAuthTab('login')">Masuk</button>
-                <button id="btn-tab-register" onclick="switchAuthTab('register')">Daftar</button>
-            </div>
-            <form id="form-login" class="auth-form active" onsubmit="prosesAuth(event, 'login')">
-                <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="login-email" placeholder="Alamat Email" required></div>
-                <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Kata Sandi" required></div>
-                <button type="submit" class="btn-auth-submit">Masuk ke Sistem</button>
-            </form>
-            <form id="form-register" class="auth-form" onsubmit="prosesAuth(event, 'register')">
-                <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" id="reg-nama" placeholder="Nama Lengkap" required></div>
-                <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" placeholder="Alamat Email" required></div>
-                <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Buat Kata Sandi" required></div>
-                <button type="submit" class="btn-auth-submit">Buat Akun Baru</button>
-            </form>
-            <div class="auth-divider">atau</div>
-            <button class="btn-guest" onclick="masukSebagaiTamu()"><i class="fa-regular fa-compass"></i> Masuk sebagai Tamu (Guest)</button>
-        </div>
-    </div>
-
     <div class="main-app" id="main-app">
         <div id="map"></div>
         
@@ -1288,7 +1261,7 @@
         // =========================================
         var map, googleStreets, satelit;
         var geoBatas, geoJalan, geoSungai, geoBidang, geoPenutup, geoNilaiTanah;
-        var jsBidangTanahReal, jsPenutupLahanReal, jsNilaiTanahReal; // data mentah (raw JSON) untuk keperluan filter/download
+        var jsBidangTanahReal, jsPenutupLahanReal, jsNilaiTanahReal; 
         var mapInitialized = false;
         
         var drawControl = null;
@@ -1654,7 +1627,7 @@
             document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
         }
 
-        /* ROUTING / NAVIGASI */
+        /* PERBAIKAN: ROUTING / NAVIGASI */
         let isRoutingActive = false;
         function toggleRouting() {
             if(!isRoutingActive) {
@@ -1664,16 +1637,25 @@
                 routingControl = L.Routing.control({
                     waypoints: [startPoint, endPoint],
                     routeWhileDragging: true,
+                    // showAlternatives dimatikan untuk menghindari error API publik OSRM
+                    showAlternatives: false,
                     lineOptions: { styles: [{color: '#8b5cf6', weight: 6, opacity: 0.8}] },
                     createMarker: function(i, wp, nWps) {
-                        let markerText = i === 0 ? "Titik Awal (Geser Pin Ini)" : "Titik Tujuan (Geser Pin Ini)";
+                        let markerText = i === 0 ? "Awal (Tahan & Geser)" : "Tujuan (Tahan & Geser)";
                         return L.marker(wp.latLng, {draggable: true}).bindPopup(markerText);
                     },
-                    language: 'id', showAlternatives: true
+                    language: 'id',
+                    // Menambahkan penanganan error sederhana agar tidak merusak console
+                    router: L.Routing.osrmv1({
+                        language: 'id',
+                        profile: 'driving'
+                    })
+                }).on('routingerror', function(e) {
+                    console.warn("Routing API error:", e.error);
                 }).addTo(map);
                 
                 isRoutingActive = true;
-                alert("Fitur Navigasi & Routing Aktif!\nSilakan geser Pin/Marker di peta untuk mengubah titik lokasi Awal (Start) dan Tujuan (End).");
+                alert("Fitur Navigasi & Routing Aktif!\nSilakan klik dan geser Pin/Marker di peta untuk mengubah titik lokasi Awal (Start) dan Tujuan (End).");
             } else {
                 map.removeControl(routingControl);
                 isRoutingActive = false;
